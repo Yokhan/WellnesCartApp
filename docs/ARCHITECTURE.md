@@ -4,7 +4,7 @@
 
 ---
 
-## Высокоуровневая архитектура
+## Высокоуровневая архитектура (MVP)
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
@@ -12,69 +12,81 @@
 │  React Native (iOS/Android) / Telegram Mini App             │
 │  ─────────────────────────────────────────────              │
 │  Онбординг → Список покупок → Свопы → Детали товара        │
-│  Профиль → Настройки → Дашборд тренера (v2)                │
+│  Профиль → Настройки → Planned Indulgence                  │
 └─────────────────┬───────────────────────────────────────────┘
                   │ REST API / WebSocket (уведомления)
 ┌─────────────────▼───────────────────────────────────────────┐
-│                    BACKEND (Python)                          │
+│                    BACKEND (Python + FastAPI)                │
 │  ┌──────────┐ ┌──────────┐ ┌──────────┐ ┌───────────────┐  │
-│  │ Auth &   │ │ List     │ │ Scoring  │ │ Taste Engine  │  │
-│  │ Profile  │ │ Builder  │ │ Pipeline │ │ (CF + SVD)    │  │
+│  │ Auth &   │ │ List     │ │ Scoring  │ │ Indulgence    │  │
+│  │ Profile  │ │ Builder  │ │ Pipeline │ │ Planner       │  │
 │  └──────────┘ └──────────┘ └──────────┘ └───────────────┘  │
-│  ┌──────────┐ ┌──────────┐ ┌──────────┐ ┌───────────────┐  │
-│  │ Price    │ │ Product  │ │ Quality  │ │ Vision AI     │  │
-│  │ Scraper  │ │ Ingester │ │ Gate     │ │ (фото холод.) │  │
-│  └──────────┘ └──────────┘ └──────────┘ └───────────────┘  │
+│  ┌──────────┐ ┌──────────┐ ┌──────────┐                     │
+│  │ Price    │ │ Product  │ │ Quality  │                     │
+│  │ Scraper  │ │ Ingester │ │ Gate     │                     │
+│  └──────────┘ └──────────┘ └──────────┘                     │
 └─────────────────┬───────────────────────────────────────────┘
                   │
 ┌─────────────────▼───────────────────────────────────────────┐
 │                    ДАННЫЕ                                    │
-│  ┌──────────────────┐  ┌──────────────┐  ┌───────────────┐ │
-│  │ PostgreSQL       │  │ pgvector     │  │ Redis         │ │
-│  │ (6 доменов)      │  │ (taste       │  │ (кэш цен,    │ │
-│  │                  │  │  vectors)    │  │  сессии)      │ │
-│  └──────────────────┘  └──────────────┘  └───────────────┘ │
+│  ┌──────────────────┐  ┌──────────────┐  ┌───────────────┐  │
+│  │ PostgreSQL 16     │  │ Redis        │  │ Supabase      │  │
+│  │ (6 доменов)       │  │ (кэш цен,    │  │ (Auth +       │  │
+│  │                   │  │  сессии)     │  │  Storage)     │  │
+│  └──────────────────┘  └──────────────┘  └───────────────┘  │
 └─────────────────────────────────────────────────────────────┘
 
 ┌─────────────────────────────────────────────────────────────┐
 │                ВНЕШНИЕ ИСТОЧНИКИ                             │
-│  ┌────────────┐ ┌────────────────┐ ┌─────────────────────┐  │
-│  │ Честный    │ │ OpenFoodFacts  │ │ Парсинг магазинов   │  │
-│  │ знак API   │ │ API            │ │ (Пятёрочка,         │  │
-│  │            │ │                │ │  Перекрёсток,       │  │
-│  │            │ │                │ │  ВкусВилл)          │  │
-│  └────────────┘ └────────────────┘ └─────────────────────┘  │
+│  ┌────────────────┐ ┌─────────────────────────────────────┐  │
+│  │ OpenFoodFacts  │ │ Парсинг магазинов (Пятёрочка,        │  │
+│  │ API            │ │  Перекрёсток, ВкусВилл)             │  │
+│  └────────────────┘ └─────────────────────────────────────┘  │
 └─────────────────────────────────────────────────────────────┘
 ```
 
+**NOT MVP (v1.5+):** Taste Engine (CF + SVD + pgvector), Vision AI
+
 ---
 
-## Пайплайн трёх систем
+## Пайплайн двух систем (MVP)
 
-Товары проходят через три системы последовательно:
+Товары проходят через два фильтра последовательно:
 
 ```
-Все товары магазина
+Все товары магазина + universal_products
     ↓
-[Quality Gate] → отсекает ~30-40% товаров
+[Quality Gate]
+  → отсекает ~30–40% товаров (NutriScore D/E, NOVA4+C, трансжиры)
     ↓
 Прошедшие товары
     ↓
-[Value Score] → сортирует по нутри-эффективности для профиля
+[Value Score / LP-оптимизация]
+  → LP генерирует корзину: max(composite_score) s.t. бюджет, белок, калории
+  → Composite Score ранжирует замены внутри слотов
     ↓
-Топ-кандидаты
-    ↓
-[Taste Engine] → доранжирует по вкусовым предпочтениям
-    ↓
-Финальный список покупок
+Финальный список покупок + 3–5 свопов на выбор
 ```
 
-**Важно:** каждая система блокирует следующую, но не заменяет её:
-- Quality Gate убирает плохие товары
-- Value Score выбирает эффективные
-- Taste Engine делает выбор приятным
+**Важно:** в MVP нет третьего фильтра (Taste Engine). Свопы ранжируются по composite_score. Вкусовые сигналы (user_product_taste) собираются для v1.5.
 
-Убери любое звено — система либо рекомендует вредное, либо игнорирует вкус, либо предлагает дорогое.
+---
+
+## Двухуровневая стратегия данных
+
+```
+[Tier A: universal_products]          [Tier B: products]
+  Куриное филе, Гречка, Яйца           Колбаса Петруха 300г
+  Творог 5%, Минтай, ...               Йогурт Чудо клубника...
+  ─────────────────────                ─────────────────────
+  • Вручную + OpenFoodFacts            • Парсинг каталогов
+  • Полный верифицированный состав     • Авто-QG фильтрация
+  • Нет дубликатов, ~50-80 позиций     • Расширяется постепенно
+  • Доступен с первого дня             • Дополняет Tier A
+  • Достаточен для MVP                 • Требует парсинг
+```
+
+На холодном старте LP работает только на Tier A. Tier B добавляется по мере парсинга.
 
 ---
 
@@ -82,74 +94,79 @@
 
 ### Auth & Profile
 - Регистрация через Telegram OAuth / email
-- Хранение профиля питания (user_nutrition_profiles)
+- Хранение профиля (user_nutrition_profiles)
 - Invite-link для тренеров
-- Управление sacred_items и indulgence_items
+- Управление sacred_items
 
 ### Product Ingester
-- Импорт товаров из Честного знака API
 - Импорт из OpenFoodFacts API
+- Ручное заполнение universal_products
 - Маппинг и дедупликация по barcode (EAN-13)
-- Обогащение convenience_tier и use_context (LLM-assisted)
+- Разметка convenience_tier и use_context (LLM-assisted → ручная корректировка)
 
 ### Price Scraper
 - Парсинг мобильных API Пятёрочки, Перекрёстка, ВкусВилла
-- Обновление каждые ≤24 часа
+- Обновление ≤24 часа
 - Детекция промо/акций
 - Кэш в Redis с TTL
+- Обновление data_freshness при каждом цикле
 
 ### Quality Gate
 - Расчёт NutriScore-2023 (алгоритм A-E)
-- Определение NOVA-класса (1-4)
+- NOVA-класс (1-4)
 - Проверка трансжиров (порог EFSA)
 - Проверка эмульгаторов (E466, E471-E475)
 - Проверка натрия (>1.5г/100г)
-- Хранение результатов в quality_gate_results
+- Хранение в quality_gate_results
 
 ### Scoring Pipeline
-- Расчёт Value Score под конкретный профиль пользователя
-- Блок A: NutriScore (из Quality Gate)
-- Блок B: ₽/г белка, ₽/100ккал, ₽/приоритетный нутриент
-- Калибровка весов по бюджету пользователя
-- Кэширование в value_scores
+- **LP-оптимизация корзины:** scipy.optimize.linprog / PuLP
+  - Objective: maximize Σ(composite_score × x)
+  - Constraints: бюджет, белок, калории, sacred_items
+- **Composite Score для слотов:** w_nutriscore × NS + w_price × (1/₽_protein) + w_deficit × deficit_nutrient
+- Веса калибруются по бюджету пользователя (ADR-009)
+- Кэш в value_scores
 
 ### List Builder
-- Генерация недельного списка покупок
-- Подбор свопов внутри функциональных слотов (convenience_tier + use_context)
-- Учёт Planned Indulgence
-- Учёт прогрессивного этапа (1/2/3/4)
-- Снапшоты цен и scores
+- Запуск LP для генерации корзины
+- Формирование 3–5 свопов из лучших composite_score в каждом слоте
+- Учёт Planned Indulgence (недельная компенсация)
+- Учёт progression_stage (1/2/3/4)
+- Снапшоты цен в shopping_list_items
 
-### Taste Engine
-- Сбор событий (user_product_interactions)
-- Агрегация taste_weight (user_product_taste)
-- Гибридный алгоритм: SVD + content-based + NutriScore re-ranking
-- Кластеризация пользователей (user_clusters)
-- Обновление векторов (user_taste_vectors) — батч раз в час
-- Холодный старт: 0-10 → только Value Score; 10-50 → item-based CF; 50+ → полный гибрид
+### Indulgence Planner
+- Читает user_indulgence_items
+- Считает недельный калорийный бюджет с учётом индульгенций
+- Перераспределяет компенсацию по неделе (не дню)
+- Передаёт скорректированные цели в LP
 
-### Vision AI (RF-10)
-- Распознавание товаров на фото холодильника/шкафа
-- Fine-tuned YOLOv8 / LLM Vision на российских продуктах
-- Маппинг распознанного к products.barcode
-- Confidence threshold <70% → подтверждение пользователем
+---
+
+## v1.5: Taste Engine (NOT MVP)
+
+```
+Задокументировано для будущей реализации.
+
+Алгоритм: гибридный SVD + content-based + NutriScore re-ranking
+Данные: user_product_interactions (уже собираем в MVP)
+Новые таблицы: user_taste_vectors (vector(512)), user_clusters
+Холодный старт: 0-10 → только Value Score; 10-50 → item-based CF; 50+ → полный гибрид
+```
 
 ---
 
 ## BCT-матрица (Behaviour Change Techniques)
 
-Техники изменения поведения, встроенные в продукт (только с доказательной базой из SR/RCT):
-
-| BCT | Реализация в продукте | Доказанность |
-|-----|----------------------|-------------|
+| BCT | Реализация | Доказанность |
+|-----|-----------|-------------|
 | Goal setting | Профиль: цель, бюджет, норма белка | SR + NICE guidelines [RCT] |
-| Self-monitoring | Виджет белок/жиры/углеводы за неделю | Сильнейший BCT в dietary apps [RS] |
+| Self-monitoring | Виджет белок/жиры/углеводы за неделю | [RS, 12+ RCT] |
 | Behaviour substitution | «Замени X на Y, +15г белка» | SR по BCT effectiveness |
 | Action planning | Список готов заранее, в воскресенье | Decision fatigue review |
-| Habit formation | Еженедельная пересборка в одно время | SR по habit formation [SR/MA] |
-| Feedback on behaviour | «На этой неделе ты добрал на 40г больше» | SR по BCT effectiveness [RCT] |
-| Planned indulgence | Любимые продукты учтены в плане | SR по food choice barriers |
-| Graded task assignment | Темп изменений настраивается пользователем | SR по dietary interventions |
+| Habit formation | Еженедельная пересборка в одно время | [SR/MA] |
+| Feedback on behaviour | «На этой неделе ты добрал на 40г больше» | [RCT] |
+| Planned indulgence | Любимые продукты учтены в плане | SR |
+| Graded task assignment | Темп изменений настраивается пользователем | SR |
 
 ---
 
@@ -160,8 +177,8 @@ shared/ ← core/ ← features/ ← adapters/UI
 ```
 
 - `shared/` — типы, валидаторы, утилиты. Не зависит ни от кого.
-- `core/` — доменная логика (Quality Gate, Value Score, Taste Engine алгоритмы). Зависит только от shared/. Нет IO.
-- `features/` — vertical slices (auth, list, scoring, taste). Зависит от shared/ и core/.
+- `core/` — доменная логика (Quality Gate, Value Score, LP алгоритмы). Нет IO.
+- `features/` — vertical slices (auth, list, scoring). Зависит от shared/ и core/.
 
 ---
 
@@ -169,27 +186,26 @@ shared/ ← core/ ← features/ ← adapters/UI
 
 | Процесс | Расписание | Действие |
 |---------|-----------|----------|
-| Price Scraper | Каждые 12–24 часа | Обновление цен из магазинов |
-| List Generator | Пятница вечер / воскресенье | Генерация списков на неделю |
-| Taste Vector Update | Каждый час | Пересчёт user_taste_vectors |
+| Price Scraper | Каждые 12–24 часа | Обновление цен + data_freshness |
+| List Generator | Воскресенье вечер | Генерация списков на неделю |
 | Quality Gate Refresh | При обновлении product_nutrients | Пересчёт quality_gate_results |
-| Value Score Refresh | При изменении профиля или цен | Пересчёт value_scores |
+| Value Score Refresh | При изменении профиля или цен | Пересчёт composite_score |
 | Promo Detector | Каждые 6 часов | Поиск акций в каталогах |
+| Staleness Checker | Каждый час | Обновление data_freshness.status |
 
 ---
 
-## Технологический стек (детали)
+## Технологический стек
 
 | Слой | Технология | Почему |
 |------|-----------|--------|
-| Frontend | React Native / Expo | Кроссплатформенность, hot reload |
+| Frontend | React Native / Expo | Кроссплатформенность |
 | Frontend (MVP) | Telegram Mini App | Быстрый старт без установки |
 | Backend API | Python + FastAPI | Async, типы, OpenAPI |
-| ML/Scoring | Python + scikit-learn | SVD, кластеризация |
-| LLM | GPT-4o / Llama (self-hosted) | Классификация convenience_tier, use_context |
-| БД | PostgreSQL 16 | Реляционная модель, сложные JOIN |
-| Векторы | pgvector | ANN-поиск, не отдельный сервис |
+| LP-оптимизация | scipy / PuLP | Линейное программирование |
+| Разметка tier/context | LLM (GPT-4o / Llama) | Классификация convenience_tier |
+| БД | PostgreSQL 16 | Реляционная модель |
 | Кэш | Redis | Цены, сессии, rate limiting |
-| Хранилище | Supabase | Auth + Storage + Realtime |
-| Vision | YOLOv8 / LLM Vision | Распознавание товаров на фото |
+| Хранилище | Supabase | Auth + Storage |
 | CI/CD | GitHub Actions | Typecheck + lint + test gates |
+| v1.5: ML/Vectors | pgvector + scikit-learn | SVD, ANN-поиск |
