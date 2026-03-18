@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(node -e \"const x = require\\(''xss''\\); console.log\\(typeof x, typeof x.xss, Object.keys\\(x\\).slice\\(0,5\\)\\)\")",
+      "Bash(npm install)",
+      "Bash(npm run typecheck)",
+      "Bash(npm test)",
+      "Bash(pip install -r requirements.txt -q)",
+      "Bash(python -m pytest tests/ -v)",
+      "Bash(python3 -m pip install -r /c/Users/iohan/Documents/WellnesCartApp/lp-solver/requirements.txt -q)",
+      "Bash(python3 -m pytest tests/ -v)"
+    ]
+  }
+}

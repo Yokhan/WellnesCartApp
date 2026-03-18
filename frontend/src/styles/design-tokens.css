@@ -1,0 +1,66 @@
+/* SmartCart Design Tokens — Fresh Green Theme */
+:root {
+  /* Brand Colors */
+  --MainColor: #f0f7ee;
+  --ContrastColor: #2d4a2d;
+
+  /* Theme aliases */
+  --fresh-dark: var(--ContrastColor);
+  --milky-light: var(--MainColor);
+  --flat-white: #ffffff;
+
+  /* Accent Colors */
+  --color-accent-green: #7bd062;
+  --color-accent-orange: #ff9b37;
+  --color-accent-red: #ff6868;
+
+  /* NutriScore Colors */
+  --nutriscore-a: #038141;
+  --nutriscore-b: #85bb2f;
+  --nutriscore-c: #fecb02;
+  --nutriscore-d: #ee8100;
+  --nutriscore-e: #e63e11;
+
+  /* Glass System */
+  --FakeGlassBg: rgba(255, 255, 255, 0.65);
+  --FakeGlassBorder: 1px solid rgba(255, 255, 255, 0.25);
+  --FakeGlassBlur: 24px;
+  --FakeGlassShadow: 0 8px 32px rgba(45, 74, 45, 0.12), 0 2px 8px rgba(45, 74, 45, 0.08);
+
+  /* Glass Overlays — Green Theme */
+  --GlassOverlayColor: rgba(45, 74, 45, 0.1);
+  --ButtonGlassOverlayColorLight: rgba(240, 247, 238, 0.6);
+  --ButtonGlassOverlayColorGreen: rgba(123, 208, 98, 0.6);
+  --ButtonGlassOverlayColorRed: rgba(244, 67, 54, 0.6);
+  --GlassSaturationBoost: rgba(128, 128, 128, 0.03);
+
+  /* Stroke gradient */
+  --StrokeGlassGradient: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.6) 0%,
+    rgba(255, 255, 255, 0.1) 50%,
+    rgba(45, 74, 45, 0.05) 100%
+  );
+
+  /* Overlay utilities */
+  --overlay-dark-20: rgba(54, 54, 54, 0.2);
+
+  /* Layout */
+  --CornerRadius: 24px;
+  --ButtonRadius: 24px;
+
+  /* Typography */
+  --font-display: 'Unbounded', sans-serif;
+  --font-body: 'Golos Text', sans-serif;
+
+  /* Spacing */
+  --spacing-xs: 4px;
+  --spacing-sm: 8px;
+  --spacing-md: 16px;
+  --spacing-lg: 24px;
+  --spacing-xl: 32px;
+  --spacing-2xl: 48px;
+
+  /* Bottom nav height for safe-area offset */
+  --bottom-nav-height: 80px;
+}

@@ -1,0 +1,16 @@
+/* Centralized component exports for design system */
+export { default as GlassCard } from '@/components/GlassCard';
+export { default as GlassButton } from '@/components/GlassButton';
+export { default as BottomNav } from '@/components/BottomNav';
+export { default as EmptyState } from '@/components/EmptyState';
+export { default as LoadingSpinner } from '@/components/LoadingSpinner';
+export { default as ErrorBoundary } from '@/components/ErrorBoundary';
+export { default as NutriScoreBadge } from '@/components/NutriScoreBadge';
+export { default as ProductCard } from '@/components/ProductCard';
+export { default as SwapCard } from '@/components/SwapCard';
+export { default as ShoppingListItem } from '@/components/ShoppingListItem';
+export { default as MacroSummaryBar } from '@/components/MacroSummaryBar';
+export { default as BudgetIndicator } from '@/components/BudgetIndicator';
+export { default as QualityGateIcon } from '@/components/QualityGateIcon';
+export { default as IndulgenceTag } from '@/components/IndulgenceTag';
+export { default as StoreSelector } from '@/components/StoreSelector';

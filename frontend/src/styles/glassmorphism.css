@@ -1,0 +1,106 @@
+/* Glassmorphism — SmartCart (adapted from YokhanFitnessApp, green theme) */
+
+/* Stroke gradient border via pseudo-element */
+.stroke-glass-gradient {
+  position: relative;
+}
+.stroke-glass-gradient::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: var(--StrokeGlassGradient);
+  -webkit-mask: linear-gradient(#fff, #fff) content-box, linear-gradient(#fff, #fff);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#fff, #fff) content-box, linear-gradient(#fff, #fff);
+  mask-composite: exclude;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Base fake-glass utility */
+.fake-glass {
+  -webkit-backdrop-filter: blur(var(--FakeGlassBlur, 24px)) saturate(150%);
+  backdrop-filter: blur(var(--FakeGlassBlur, 24px)) saturate(150%);
+  background: var(--FakeGlassBg, rgba(255, 255, 255, 0.65));
+  border: var(--FakeGlassBorder, 1px solid rgba(255, 255, 255, 0.25));
+  box-shadow: var(--FakeGlassShadow);
+}
+
+/* Full glass card */
+.glass-card {
+  backdrop-filter: blur(var(--FakeGlassBlur, 24px)) saturate(150%);
+  -webkit-backdrop-filter: blur(var(--FakeGlassBlur, 24px)) saturate(150%);
+  background: var(--FakeGlassBg);
+  border: var(--FakeGlassBorder);
+  border-radius: var(--CornerRadius, 24px);
+  box-shadow: var(--FakeGlassShadow);
+}
+
+/* Bottom navigation bar */
+.bottom-nav-fakeglass {
+  border-radius: var(--CornerRadius, 24px);
+  background:
+    linear-gradient(115deg, rgba(0,0,0,0.01) 18.75%, rgba(255,255,255,0.04) 44.31%, rgba(255,255,255,0.04) 53.71%, rgba(255,255,255,0.04) 62.82%, rgba(0,0,0,0.01) 79.86%),
+    linear-gradient(0deg, var(--GlassOverlayColor, rgba(45, 74, 45, 0.1)) 0%, var(--GlassOverlayColor, rgba(45, 74, 45, 0.1)) 100%),
+    linear-gradient(0deg, var(--overlay-dark-20, rgba(54, 54, 54, 0.2)) 0%, var(--overlay-dark-20, rgba(54, 54, 54, 0.2)) 100%),
+    var(--GlassSaturationBoost, rgba(128, 128, 128, 0.03));
+  background-blend-mode: soft-light, overlay, normal, saturation;
+  box-shadow: var(--FakeGlassShadow);
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+}
+
+/* Button variants */
+.fill-fakeglass-green {
+  border-radius: var(--CornerRadius, 24px);
+  background:
+    linear-gradient(115deg, rgba(0,0,0,0.01) 18.75%, rgba(255,255,255,0.04) 44.31%, rgba(255,255,255,0.04) 53.71%, rgba(255,255,255,0.04) 62.82%, rgba(0,0,0,0.01) 79.86%),
+    linear-gradient(0deg, var(--ButtonGlassOverlayColorGreen, rgba(123, 208, 98, 0.6)) 0%, var(--ButtonGlassOverlayColorGreen, rgba(123, 208, 98, 0.6)) 100%),
+    linear-gradient(0deg, var(--overlay-dark-20, rgba(54, 54, 54, 0.2)) 0%, var(--overlay-dark-20, rgba(54, 54, 54, 0.2)) 100%),
+    var(--GlassSaturationBoost, rgba(128, 128, 128, 0.03));
+  background-blend-mode: soft-light, overlay, normal, saturation;
+  box-shadow: var(--FakeGlassShadow);
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+}
+
+.fill-fakeglass-light {
+  border-radius: var(--CornerRadius, 24px);
+  background:
+    linear-gradient(115deg, rgba(0,0,0,0.01) 18.75%, rgba(255,255,255,0.04) 44.31%, rgba(255,255,255,0.04) 53.71%, rgba(255,255,255,0.04) 62.82%, rgba(0,0,0,0.01) 79.86%),
+    linear-gradient(0deg, var(--ButtonGlassOverlayColorLight, rgba(240, 247, 238, 0.6)) 0%, var(--ButtonGlassOverlayColorLight, rgba(240, 247, 238, 0.6)) 100%),
+    linear-gradient(0deg, var(--overlay-dark-20, rgba(54, 54, 54, 0.2)) 0%, var(--overlay-dark-20, rgba(54, 54, 54, 0.2)) 100%),
+    var(--GlassSaturationBoost, rgba(128, 128, 128, 0.03));
+  background-blend-mode: soft-light, overlay, normal, saturation;
+  box-shadow: var(--FakeGlassShadow);
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+}
+
+.fill-fakeglass-dark {
+  border-radius: var(--CornerRadius, 24px);
+  background:
+    linear-gradient(115deg, rgba(0,0,0,0.01) 18.75%, rgba(255,255,255,0.04) 44.31%, rgba(255,255,255,0.04) 53.71%, rgba(255,255,255,0.04) 62.82%, rgba(0,0,0,0.01) 79.86%),
+    linear-gradient(0deg, var(--GlassOverlayColor, rgba(45, 74, 45, 0.1)) 0%, var(--GlassOverlayColor, rgba(45, 74, 45, 0.1)) 100%),
+    linear-gradient(0deg, var(--overlay-dark-20, rgba(54, 54, 54, 0.2)) 0%, var(--overlay-dark-20, rgba(54, 54, 54, 0.2)) 100%),
+    var(--GlassSaturationBoost, rgba(128, 128, 128, 0.03));
+  background-blend-mode: soft-light, overlay, normal, saturation;
+  box-shadow: var(--FakeGlassShadow);
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+}
+
+.fill-fakeglass-red {
+  border-radius: var(--CornerRadius, 24px);
+  background:
+    linear-gradient(115deg, rgba(0,0,0,0.01) 18.75%, rgba(255,255,255,0.04) 44.31%, rgba(255,255,255,0.04) 53.71%, rgba(255,255,255,0.04) 62.82%, rgba(0,0,0,0.01) 79.86%),
+    linear-gradient(0deg, var(--ButtonGlassOverlayColorRed, rgba(244, 67, 54, 0.6)) 0%, var(--ButtonGlassOverlayColorRed, rgba(244, 67, 54, 0.6)) 100%),
+    linear-gradient(0deg, var(--overlay-dark-20, rgba(54, 54, 54, 0.2)) 0%, var(--overlay-dark-20, rgba(54, 54, 54, 0.2)) 100%),
+    var(--GlassSaturationBoost, rgba(128, 128, 128, 0.03));
+  background-blend-mode: soft-light, overlay, normal, saturation;
+  box-shadow: var(--FakeGlassShadow);
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+}
