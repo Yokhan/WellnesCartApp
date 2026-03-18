@@ -1,16 +1,140 @@
 {
   "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "npx prettier --write \"$FILE_PATH\" 2>/dev/null || black \"$FILE_PATH\" 2>/dev/null || rustfmt \"$FILE_PATH\" 2>/dev/null || gofmt -w \"$FILE_PATH\" 2>/dev/null || echo \"NOTE: No formatter available for $FILE_PATH\"",
+            "timeout": 30
+          }
+        ]
+      },
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "lines=$(wc -l < \"$FILE_PATH\" 2>/dev/null || echo 0); code_lines=$(grep -cE '^[[:space:]]*[^#[:space:]]' \"$FILE_PATH\" 2>/dev/null || echo 0); [ \"$lines\" -le 250 ] || echo \"WARNING: $FILE_PATH has $lines lines ($code_lines code lines, limit 250, Working Memory Cliff). Consider splitting.\"",
+            "timeout": 5
+          }
+        ]
+      },
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "case \"$FILE_PATH\" in *.py) python -m py_compile \"$FILE_PATH\" 2>&1;; *.json) python -m json.tool \"$FILE_PATH\" > /dev/null 2>&1;; *.sh) bash -n \"$FILE_PATH\" 2>&1;; *.yml|*.yaml) python -c \"import sys,yaml; yaml.safe_load(open(sys.argv[1]))\" \"$FILE_PATH\" 2>&1;; *.toml) python -c \"import sys,tomllib; tomllib.load(open(sys.argv[1],'rb'))\" \"$FILE_PATH\" 2>&1;; esac || true",
+            "timeout": 10
+          }
+        ]
+      },
+      {
+        "matcher": "Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "if echo \"$FILE_PATH\" | grep -qE \"(\\.env$|\\.log$|node_modules/)\"; then echo \"WARNING: Writing to potentially sensitive path: $FILE_PATH\"; fi",
+            "timeout": 5
+          }
+        ]
+      },
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "grep -nE \"from [\\\"'][^\\\"/]+(/[^\\\"/]+)+\\.(service|data|types|adapter)[\\\"']\" \"$FILE_PATH\" 2>/dev/null && echo \"WARNING: Deep import detected in $FILE_PATH - import through index only\" || true",
+            "timeout": 5
+          }
+        ]
+      },
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "if echo \"$FILE_PATH\" | grep -q \"CLAUDE.md\"; then lines=$(wc -l < \"$FILE_PATH\" 2>/dev/null || echo 0); [ \"$lines\" -le 200 ] || echo \"WARNING: CLAUDE.md has $lines lines (limit 200). Consider trimming.\"; fi",
+            "timeout": 5
+          }
+        ]
+      }
+    ],
     "PreToolUse": [
       {
         "matcher": "Edit|Write",
         "hooks": [
           {
             "type": "command",
-            "command": "[ \"$(git branch --show-current)\" != \"main\" ] || { echo '{\"block\":true,\"message\":\"Cannot edit on main branch\"}' >&2; exit 2; }",
+            "command": "if git rev-parse --git-dir > /dev/null 2>&1; then branch=$(git branch --show-current 2>/dev/null); if [ \"$branch\" = \"main\" ] || [ \"$branch\" = \"master\" ]; then echo '{\"block\":true,\"message\":\"Cannot edit on main/master. Create a feature branch first.\"}' >&2; exit 2; fi; fi",
+            "timeout": 5
+          }
+        ]
+      },
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "if [ -f \"$FILE_PATH\" ] && grep -qE \"(sk-[a-zA-Z0-9]{20,}|ghp_[a-zA-Z0-9]{36}|PRIVATE.KEY|-----BEGIN.*(RSA|EC|DSA|OPENSSH)|AKIA[0-9A-Z]{16}|xoxb-|sk_live_|rk_live_|whsec_|SG\\\\.|AIza)\" \"$FILE_PATH\" 2>/dev/null; then echo '{\"block\":true,\"message\":\"Potential secret/key detected in file! Remove before writing.\"}' >&2; exit 2; fi",
+            "timeout": 5
+          }
+        ]
+      },
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo \"$COMMAND\" | grep -qE \"(rm -rf /|git reset --hard|git push.*--force|DROP TABLE|TRUNCATE|git clean|git checkout -- \\\\.|docker system prune|chmod -R 777)\" && { echo '{\"block\":true,\"message\":\"Destructive command blocked. Use with explicit user approval only.\"}' >&2; exit 2; } || true",
             "timeout": 5
           }
         ]
       }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "if [ -d brain/01-daily ]; then d=$(date +%Y-%m-%d); f=\"brain/01-daily/${d}.md\"; [ -f \"$f\" ] || echo \"# Session Log: ${d}\" > \"$f\"; echo \"\" >> \"$f\"; echo \"## Session ended: $(date +%H:%M)\" >> \"$f\"; echo \"\" >> \"$f\"; commits=$(git log --oneline --since=\"$(date +%Y-%m-%d) 00:00\" 2>/dev/null | wc -l | tr -d ' '); echo \"## Session stats: $commits commits today\" >> \"$f\"; fi",
+            "timeout": 10
+          }
+        ]
+      }
+    ],
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "if [ -d brain/01-daily ]; then d=$(date +%Y-%m-%d); f=\"brain/01-daily/${d}.md\"; [ -f \"$f\" ] || echo \"# Session Log: ${d}\" > \"$f\"; echo \"\" >> \"$f\"; echo \"## Session started: $(date +%H:%M)\" >> \"$f\"; branch=$(git branch --show-current 2>/dev/null); [ -n \"$branch\" ] && echo \"Branch: $branch\" >> \"$f\"; echo \"\" >> \"$f\"; fi; if [ -f tasks/lessons.md ]; then echo \"REMINDER: Read tasks/lessons.md for past learnings\"; fi; if [ -f tasks/current.md ]; then echo \"REMINDER: Read tasks/current.md for handoff context\"; head -3 tasks/current.md; fi; unstaged=$(git status --porcelain 2>/dev/null | wc -l | tr -d ' '); [ \"$unstaged\" -gt 0 ] && echo \"WARNING: $unstaged uncommitted changes from previous session\"; [ -f tasks/current.md ] && cp tasks/current.md tasks/.current.md.bak 2>/dev/null || true; if [ -f .template-manifest.json ] && [ -f scripts/check-drift.sh ]; then proj_ver=$(python3 -c \"import json;print(json.load(open('.template-manifest.json'))['template_version'])\" 2>/dev/null || true); script_ver=$(grep -oP 'TEMPLATE_VERSION=\"([^\"]+)\"' scripts/check-drift.sh 2>/dev/null | head -1 | cut -d'\"' -f2 || true); [ -n \"$proj_ver\" ] && [ -n \"$script_ver\" ] && [ \"$proj_ver\" != \"$script_ver\" ] && echo \"WARNING: Template outdated ($proj_ver vs $script_ver). Run /update-template.\"; fi; if git remote get-url template &>/dev/null 2>&1; then last_fetch=$(git log -1 --format=%ct refs/remotes/template/main 2>/dev/null || git log -1 --format=%ct refs/remotes/template/master 2>/dev/null || echo 0); now=$(date +%s 2>/dev/null || echo 0); if [ \"$now\" -gt 0 ] && [ \"$last_fetch\" -gt 0 ]; then days_since=$(( (now - last_fetch) / 86400 )); [ \"$days_since\" -gt 7 ] && echo \"INFO: Template not checked in ${days_since}d. Run 'bash scripts/sync-template.sh --from-git --dry-run' to check.\"; fi; fi",
+            "timeout": 15
+          }
+        ]
+      }
+    ],
+    "PreCompact": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "if [ -d brain/01-daily ]; then d=$(date +%Y-%m-%d); echo \"\" >> \"brain/01-daily/${d}.md\"; echo \"## Pre-compaction save: $(date +%H:%M)\" >> \"brain/01-daily/${d}.md\"; changed=$(git diff --name-only HEAD 2>/dev/null); [ -n \"$changed\" ] && echo \"Changed files:\" >> \"brain/01-daily/${d}.md\" && echo \"$changed\" >> \"brain/01-daily/${d}.md\"; echo \"IMPORTANT: Save current task state to tasks/current.md before compaction\"; fi",
+            "timeout": 10
+          }
+        ]
+      }
+    ]
+  },
+  "permissions": {
+    "allow": [
+      "Read",
+      "Glob",
+      "Grep",
+      "WebSearch",
+      "WebFetch"
     ]
   }
 }
