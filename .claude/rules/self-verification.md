@@ -1,0 +1,96 @@
+# Self-Verification Protocol (MANDATORY)
+
+This protocol is NOT optional. Skipping it is a system failure.
+
+## When This Triggers
+
+ANY response that includes ONE OR MORE of:
+- Architectural decision (new module, dependency, data model)
+- Modification of 3+ files in shared/, core/, or across module boundaries (routine same-module changes exempt)
+- Choosing between alternative approaches
+- Rejecting a simpler approach in favor of a complex one
+- Changes to shared/ or core/ (high blast radius)
+- Any irreversible change (DB migration, API contract, data deletion)
+- Recommending a tool, library, or pattern
+
+Does NOT trigger for:
+- Answering questions without code changes
+- Single-file typo/formatting fixes
+- Adding tests without changing production code
+- Documentation-only changes
+
+## The Doubt Protocol (3 mandatory steps)
+
+### Step 1: Devil's Advocate (Attack your own solution)
+
+Before presenting ANY implementation, explicitly answer:
+1. "What is the WEAKEST part of this solution?"
+2. "If I were reviewing this as a SKEPTIC, what would I challenge?"
+3. "What assumption am I making that could be WRONG?"
+4. "Is there a SIMPLER approach I dismissed too quickly? Why did I dismiss it?"
+
+If you cannot answer #1 — you haven't thought hard enough. EVERY non-trivial solution has a weak point. "None" is never an acceptable answer.
+
+### Step 2: Commander's Intent Re-check
+
+- Re-read the ORIGINAL request (not your plan, not your interpretation — the user's actual words)
+- State: "The user's actual goal is: [X]"
+- State: "My solution achieves this by: [Y]"
+- State: "My solution could FAIL to achieve this if: [Z]"
+- If Z is plausible → STOP. Reconsider before presenting.
+
+### Step 3: Confidence Declaration (REQUIRED in output)
+
+Every non-trivial response MUST end with:
+
+```
+VERIFICATION:
+- Approach: [1-sentence summary of what I did]
+- Confidence: [HIGH / MEDIUM / LOW]
+- Doubt: [what I'm least sure about — NEVER "none"]
+- Alternative considered: [what else I could have done]
+- Risk: [what could go wrong with this approach]
+```
+
+Interpretation:
+- **LOW** → Do NOT implement. Present 2-3 options with trade-offs. Let user decide.
+- **MEDIUM** → Implement, but FLAG uncertainty explicitly. "I chose X but Y might be better because..."
+- **HIGH** → Proceed. But: if you're HIGH on everything, you're not doubting enough.
+
+Calibration rule: if you haven't explicitly considered and rejected at least one alternative, your confidence is MEDIUM at best, never HIGH.
+
+## The Sunk Cost Test
+
+Before EVERY response where you've already started implementing:
+
+> "If I had NOT already written this code, would I choose this exact approach?"
+
+- YES → Continue.
+- NO or PROBABLY NOT → STOP. Discard what you wrote. Restart with the approach you'd actually choose.
+
+The code you've already written has ZERO value if it's the wrong approach. Throwing it away is free. Defending it is expensive.
+
+## Sycophancy Circuit Breaker
+
+When the user points out a flaw and your reaction is "you're right!":
+1. That means you ALREADY KNEW but didn't surface it
+2. This is an ATTENTION FAILURE, not a knowledge gap
+3. Log to tasks/lessons.md: what the flaw was, why you didn't catch it, what verification step would have caught it
+4. Next time: the same category of flaw must be caught by YOUR verification, not the user's
+
+Goal: zero "you're right!" moments. Every flaw should be surfaced by the agent BEFORE the user has to point it out.
+
+## Anti-Patterns This Prevents
+
+| Bias | How it manifests | How this protocol stops it |
+|------|-----------------|---------------------------|
+| Commitment bias | Defending approach A after choosing it | Sunk Cost Test forces re-evaluation |
+| Completion bias | Rushing to "done" | Verification gate sits between done and output |
+| Self-sycophancy | Agreeing with own previous output | Devil's Advocate forces attack on own solution |
+| Tunnel vision | Not considering alternatives | Confidence requires rejected alternative |
+| Authority bias | "Best practice says..." | Critical-thinking.md evidence hierarchy |
+
+## References
+- `.claude/rules/critical-thinking.md` — evidence hierarchy, red flags
+- `.claude/rules/strategic-thinking.md` — OODA loop, Commander's Intent
+- `.claude/rules/conflict-resolution.md` — confidence-based escalation

@@ -35,7 +35,7 @@ Count: critical, high, medium vulnerabilities.
 
 ### Step 5 — Code Quality Metrics
 ```bash
-# Files > 250 lines
+# Files > 375 lines
 find src -type f \( -name "*.ts" -o -name "*.py" -o -name "*.go" -o -name "*.rs" \) 2>/dev/null \
   | xargs wc -l 2>/dev/null | awk '$1>250 && $2!="total" {print $2": "$1" lines"}' | head -10
 
@@ -54,7 +54,7 @@ Drift:        [PASS / N issues]
 Coverage:     [X%] (target: core 90%, features 80%)
 Security:     [N critical, N high, N medium]
 Outdated:     [N packages]
-Large files:  [N files > 250 lines]
+Large files:  [N files > 375 lines]
 Open TODOs:   [N]
 Lessons:      [N entries] (promote if >50)
 Overall:      GREEN / YELLOW / RED

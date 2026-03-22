@@ -132,6 +132,19 @@ fi
 
 # --- Read manifest ---
 MANIFEST=".template-manifest.json"
+
+# Fix Windows backslash paths in manifest
+if grep -q '\\\\' .template-manifest.json 2>/dev/null; then
+  echo "Fixing Windows backslash paths in manifest..."
+  sed -i 's/\\\\/\//g' .template-manifest.json
+fi
+
+# Warn if manifest version is unknown
+manifest_ver=$(python3 -c "import json; print(json.load(open('.template-manifest.json')).get('template_version','unknown'))" 2>/dev/null || echo "unknown")
+if [ "$manifest_ver" = "unknown" ] || [ -z "$manifest_ver" ]; then
+  echo "WARNING: Manifest version is '$manifest_ver'. Will be updated after sync."
+fi
+
 if [ ! -f "$MANIFEST" ]; then
   if [ "$BOOTSTRAP" = true ]; then
     echo "=== Bootstrap: Generating $MANIFEST for existing project ==="
@@ -164,6 +177,7 @@ if [ ! -f "$MANIFEST" ]; then
       ".claude/agents/*.md" \
       ".claude/skills/*/SKILL.md" \
       ".claude/commands/*.md" \
+      ".claude/hooks/*.sh" \
       "scripts/*.sh" \
       ".editorconfig" "Makefile" "SECURITY.md" "CONTRIBUTING.md" \
       "CLAUDE.md" ".gitignore" ".vscode/extensions.json"; do
@@ -258,6 +272,15 @@ fi
 
 while IFS='|' read -r filepath old_hash category; do
   [ -z "$filepath" ] && continue
+
+  # Skip project-local files
+  case "$filepath" in
+    .claude/settings.local.json|core/*)
+      SKIPPED=$((SKIPPED + 1))
+      continue
+      ;;
+  esac
+
   template_file="$TEMPLATE_PATH/$filepath"
 
   if [ ! -f "$template_file" ]; then
@@ -289,12 +312,19 @@ done <<< "$manifest_files"
 echo "--- Phase B: Checking for new template files ---"
 
 # Define template file patterns to check
-for pattern in ".claude/settings.json" ".claude/rules/*.md" ".claude/agents/*.md" ".claude/skills/*/SKILL.md" ".claude/commands/*.md" "scripts/*.sh" ".editorconfig" "Makefile" "SECURITY.md" "CONTRIBUTING.md"; do
+for pattern in ".claude/settings.json" ".claude/rules/*.md" ".claude/agents/*.md" ".claude/skills/*/SKILL.md" ".claude/commands/*.md" ".claude/hooks/*.sh" "scripts/*.sh" ".editorconfig" "Makefile" "SECURITY.md" "CONTRIBUTING.md"; do
   # H1: Quote the template path in glob expansion
   for template_file in "$TEMPLATE_PATH"/$pattern; do
     [ -f "$template_file" ] || continue
     # Get relative path
     rel_path="${template_file#$TEMPLATE_PATH/}"
+
+    # Skip project-local files
+    case "$rel_path" in
+      .claude/settings.local.json|core/*)
+        continue
+        ;;
+    esac
 
     # Check if already in manifest (C1: use env vars for Python)
     in_manifest=$(MANIFEST_PATH="$MANIFEST" REL_PATH="$rel_path" python3 -c "
@@ -381,7 +411,7 @@ for filepath, info in list(manifest['files'].items()):
             info['hash'] = h
 
 # Add new files from standard directories
-for pattern_dir in ['.claude/rules', '.claude/agents', '.claude/commands', 'scripts']:
+for pattern_dir in ['.claude/rules', '.claude/agents', '.claude/commands', '.claude/hooks', 'scripts']:
     if not os.path.isdir(pattern_dir):
         continue
     for fname in os.listdir(pattern_dir):

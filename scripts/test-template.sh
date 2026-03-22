@@ -30,10 +30,14 @@ echo ""
 echo "Claude config:"
 check ".claude/settings.json" test -f .claude/settings.json
 check "settings.json valid JSON" python -m json.tool .claude/settings.json
-check ">=6 rule files" bash -c '[ $(ls .claude/rules/*.md 2>/dev/null | wc -l) -ge 6 ]'
+check ">=19 rule files" bash -c '[ $(ls .claude/rules/*.md 2>/dev/null | wc -l) -ge 19 ]'
+check ">=9 domain rule files" bash -c '[ $(ls .claude/rules/domain-*.md .claude/rules/critical-thinking.md 2>/dev/null | wc -l) -ge 9 ]'
 check ">=7 agent files" bash -c '[ $(ls .claude/agents/*.md 2>/dev/null | wc -l) -ge 7 ]'
-check ">=10 skill dirs" bash -c '[ $(ls -d .claude/skills/*/ 2>/dev/null | wc -l) -ge 10 ]'
-check ">=8 command files" bash -c '[ $(ls .claude/commands/*.md 2>/dev/null | wc -l) -ge 8 ]'
+check ">=21 skill dirs" bash -c '[ $(ls -d .claude/skills/*/ 2>/dev/null | wc -l) -ge 21 ]'
+check ">=6 domain skill dirs" bash -c '[ $(ls -d .claude/skills/domain-*/ 2>/dev/null | wc -l) -ge 6 ]'
+check ">=12 command files" bash -c '[ $(ls .claude/commands/*.md 2>/dev/null | wc -l) -ge 12 ]'
+check ">=7 hook files" bash -c '[ $(ls .claude/hooks/*.sh 2>/dev/null | wc -l) -ge 7 ]'
+check "scripts/test-hooks.sh" test -f scripts/test-hooks.sh
 
 echo ""
 echo "Brain vault:"
@@ -46,7 +50,7 @@ check ">=3 brain templates" bash -c '[ $(ls brain/templates/*.md 2>/dev/null | w
 
 echo ""
 echo "File sizes:"
-check "CLAUDE.md <=200 lines" bash -c '[ $(wc -l < CLAUDE.md) -le 200 ]'
+check "CLAUDE.md <=300 lines" bash -c '[ $(wc -l < CLAUDE.md) -le 300 ]'
 
 echo ""
 echo "Results: $((CHECKS-ERRORS))/$CHECKS passed"

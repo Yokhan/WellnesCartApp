@@ -14,8 +14,10 @@
 - Never create circular dependencies.
 
 ## File Size
-- Maximum 250 lines per file. This is a cognitive limit for AI agents, not just style.
-- If a file grows beyond 250 lines, split it by responsibility.
+- Maximum 375 lines per file (1M context models). For smaller context models, keep at 250.
+- This is a cognitive limit for AI agents (Working Memory Cliff), not just style.
+- If a file grows beyond 375 lines, split it by responsibility.
+- Instruction files (skills, agents, rules) can be longer — up to 800 lines for domain-heavy skills.
 
 ## Module Structure (Vertical Slices)
 Each feature is a self-contained module with all layers:
@@ -37,3 +39,34 @@ features/auth/
 - `data.*` — configurations, tables, lookup maps (easy to change)
 - `processor.*` / `service.*` — pure functions: (input, config) => output (stable)
 - `types.*` — contracts and interfaces
+
+## When to Split a Module
+Split when ANY of these heuristics fire:
+- **>3 public exports** — the module is doing too many things. Each export is a promise to consumers.
+- **>2 consumers** — multiple dependents = high change cost. Smaller modules reduce blast radius.
+- **Mixed concerns** — if a module has both "user auth" and "email sending," those are separate domains.
+- **Different change rates** — parts that change weekly shouldn't live with parts that change yearly.
+- When in doubt, keep together. Premature splitting creates coupling through shared types.
+
+## Monolith vs Microservice Decision
+Default: **monolith**. Split ONLY when you have a concrete reason:
+- **Independent deployment needed** — one team ships daily, another monthly. Different cadences = split.
+- **Independent scaling needed** — one module handles 100x more traffic. Scaling everything together wastes resources.
+- **Team boundary alignment** — Conway's Law is real. If two teams own it, two services make sense.
+- **Regulatory isolation** — PCI/HIPAA compliance scope can be reduced by isolating the sensitive module.
+- If none of these apply, a well-structured monolith outperforms microservices on complexity, latency, and debugging.
+- Reference: Startup Genome data — 74% of premature scalers fail. This applies to architecture too.
+
+## API Boundary Design
+- **Internal APIs** (module-to-module): typed function calls, no serialization overhead. Change freely.
+- **External APIs** (exposed to consumers): versioned, stable, backward-compatible. Breaking changes = new version.
+- Version strategy: URL prefix (`/v1/`, `/v2/`) for REST; field deprecation for GraphQL.
+- Never expose internal models directly — use DTOs/response types at the boundary.
+- API contracts live in `docs/API_CONTRACTS.md` and are the source of truth.
+
+## Database Strategy
+- **Shared DB** (default for monolith): simpler transactions, joins, consistency. Use schema namespaces per module.
+- **DB per module**: required when modules need independent scaling, different storage engines, or separate team ownership.
+- Trade-off: shared DB = easy consistency, hard independence. Separate DB = easy independence, hard consistency (eventual consistency, sagas).
+- Rule: even with shared DB, modules access ONLY their own tables. Cross-module data goes through the module's public API.
+- Migrations always versioned, reversible, and owned by the module that owns the table.

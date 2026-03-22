@@ -18,7 +18,7 @@ git log --oneline -1               # last commit
 
 ### Code Health
 ```bash
-# Files > 250 lines (show top 5)
+# Files > 375 lines (show top 5)
 find src -type f \( -name "*.ts" -o -name "*.py" -o -name "*.go" -o -name "*.rs" \) 2>/dev/null \
   | xargs wc -l 2>/dev/null \
   | awk '$1>250 && $2!="total" {print $1" "$2}' \

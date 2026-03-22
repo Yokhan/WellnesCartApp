@@ -27,7 +27,7 @@ Save to `brain/03-knowledge/refactor-YYYY-MM-DD.md` as "Before" metrics.
 ### Phase 2: Refactor
 1. Perform the refactoring
 2. Follow patterns in `_reference/`
-3. Keep files < 250 lines
+3. Keep files < 375 lines
 4. Maintain module boundaries (imports through entry points only)
 
 ### Phase 3: Verify
