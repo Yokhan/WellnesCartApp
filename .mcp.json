@@ -2,7 +2,9 @@
   "mcpServers": {
     "engram": {
       "command": "C:/Users/iohan/.local/bin/engram.exe",
-      "args": ["mcp"]
+      "args": [
+        "mcp"
+      ]
     },
     "claude-memory": {
       "command": "claude-memory-mcp",
@@ -10,7 +12,16 @@
     },
     "codegraphcontext": {
       "command": "C:/Users/iohan/AppData/Local/Python/pythoncore-3.14-64/Scripts/cgc.exe",
-      "args": ["mcp", "start"]
+      "args": [
+        "mcp",
+        "start"
+      ]
+    },
+    "memcp": {
+      "command": "memcp",
+      "args": [
+        "serve"
+      ]
     }
   }
 }
