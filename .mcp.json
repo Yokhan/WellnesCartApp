@@ -8,7 +8,8 @@
     },
     "claude-memory": {
       "command": "claude-memory-mcp",
-      "args": []
+      "args": [],
+      "disabled": true
     },
     "codegraphcontext": {
       "command": "C:/Users/iohan/AppData/Local/Python/pythoncore-3.14-64/Scripts/cgc.exe",
@@ -20,8 +21,9 @@
     "memcp": {
       "command": "memcp",
       "args": [
-        "serve"
-      ]
+        "."
+      ],
+      "disabled": true
     }
   }
 }
