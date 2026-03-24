@@ -11,22 +11,22 @@ if [ -z "$FILE_PATH" ]; then
   exit 0
 fi
 
-# File size check (Working Memory Cliff = 250 lines)
+# File size check (Working Memory Cliff — 375 lines for 1M context models)
 if [ -f "$FILE_PATH" ]; then
   lines=$(wc -l < "$FILE_PATH" 2>/dev/null || echo 0)
   lines=$(echo "$lines" | tr -d ' ')
-  if [ "$lines" -gt 250 ] 2>/dev/null; then
-    echo "WARNING: $FILE_PATH has $lines lines (limit 250, Working Memory Cliff). Consider splitting."
+  if [ "$lines" -gt 375 ] 2>/dev/null; then
+    echo "WARNING: $FILE_PATH has $lines lines (limit 375, Working Memory Cliff). Consider splitting."
   fi
 fi
 
-# CLAUDE.md size check
+# CLAUDE.md size check (hard limit 300 for 1M context)
 case "$FILE_PATH" in
   *CLAUDE.md)
     lines=$(wc -l < "$FILE_PATH" 2>/dev/null || echo 0)
     lines=$(echo "$lines" | tr -d ' ')
-    if [ "$lines" -gt 200 ] 2>/dev/null; then
-      echo "WARNING: CLAUDE.md has $lines lines (limit 200). Consider trimming."
+    if [ "$lines" -gt 300 ] 2>/dev/null; then
+      echo "WARNING: CLAUDE.md has $lines lines (limit 300). Consider trimming."
     fi
     ;;
 esac
