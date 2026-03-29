@@ -32,6 +32,27 @@ if [ -f "tasks/current.md" ]; then
   head -3 tasks/current.md 2>/dev/null || true
 fi
 
+# PROJECT_SPEC.md freshness check
+if [ -f "PROJECT_SPEC.md" ]; then
+  # Cross-platform: use python for date math (works on Windows Git Bash, Linux, macOS)
+  spec_date=$(grep -E '^[0-9]{4}-[0-9]{2}-[0-9]{2}' PROJECT_SPEC.md 2>/dev/null | tail -1 | grep -oE '[0-9]{4}-[0-9]{2}-[0-9]{2}')
+  if [ -n "$spec_date" ]; then
+    days_old=$(python3 -c "
+from datetime import datetime
+try:
+    d = datetime.strptime('$spec_date', '%Y-%m-%d')
+    print((datetime.now() - d).days)
+except:
+    print(-1)
+" 2>/dev/null || echo -1)
+    if [ "$days_old" -gt 7 ] 2>/dev/null; then
+      echo "WARNING: PROJECT_SPEC.md is ${days_old} days old. Regenerate it (see .claude/rules/context-first.md)."
+    fi
+  fi
+else
+  echo "ACTION: PROJECT_SPEC.md not found. Generate it now (see .claude/rules/context-first.md)."
+fi
+
 # Uncommitted changes warning
 unstaged=$(git status --porcelain 2>/dev/null | wc -l | tr -d ' ')
 if [ "$unstaged" -gt 0 ] 2>/dev/null; then

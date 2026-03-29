@@ -1,7 +1,7 @@
 {
   "template_version": "unknown",
   "created": "2026-03-19",
-  "updated": "2026-03-25",
+  "updated": "2026-03-29",
   "template_remote": "",
   "files": {
     ".claude/settings.json": {
@@ -46,7 +46,7 @@
     },
     "scripts/sync-template.sh": {
       "category": "template",
-      "hash": "d057b7f4d2acb229d7a4e0b1701f02b6aa666cbf6287382ca5d5dde0260d0a8e"
+      "hash": "70cb45b94ad955177bb83a25520064ffb2208c13056db2827089aa5d23142be7"
     },
     "scripts/update-template.sh": {
       "category": "template",
@@ -78,7 +78,7 @@
     },
     ".claude/agents/implementer.md": {
       "category": "template",
-      "hash": "33c3dd5c8dc3436c8edeb133e342e38785b1bafbabaaf801741eb99ce4b1165b"
+      "hash": "aece0754b68794ee9cfbf0a6d21dd4b8b627cfa336a10861fc11d8e8f589e8c1"
     },
     ".claude/agents/profiler.md": {
       "category": "template",
@@ -270,7 +270,7 @@
     },
     ".claude/hooks/session-start.sh": {
       "category": "template",
-      "hash": "2e81215b58bba93ebe16a1375c929dc4f44a9e05e93774ec54408239d9be9f99"
+      "hash": "f3a196e5dfc4005e67e0ca1e40c5a941a0c6d9e60bfc62d93f6310e87950bf21"
     },
     ".claude/hooks/session-stop.sh": {
       "category": "template",
@@ -398,7 +398,7 @@
     },
     ".claude/agents\\implementer.md": {
       "category": "template",
-      "hash": "\\33c3dd5c8dc3436c8edeb133e342e38785b1bafbabaaf801741eb99ce4b1165b"
+      "hash": "\\aece0754b68794ee9cfbf0a6d21dd4b8b627cfa336a10861fc11d8e8f589e8c1"
     },
     ".claude/agents\\profiler.md": {
       "category": "template",
@@ -426,7 +426,7 @@
     },
     ".claude/agents\\writer.md": {
       "category": "template",
-      "hash": "\\5ea1730fb4bad7be259bf7a03c8aa0e72dd8c6f639a13e5fd37c5a33c672127b"
+      "hash": "\\08d2ae79daeed4cd878ee198fb8ce50227805aa9e7028808518c71edf8f289b3"
     },
     ".claude/commands\\brain-sync.md": {
       "category": "template",
@@ -494,7 +494,7 @@
     },
     ".claude/hooks\\session-start.sh": {
       "category": "template",
-      "hash": "\\2e81215b58bba93ebe16a1375c929dc4f44a9e05e93774ec54408239d9be9f99"
+      "hash": "\\f3a196e5dfc4005e67e0ca1e40c5a941a0c6d9e60bfc62d93f6310e87950bf21"
     },
     ".claude/hooks\\session-stop.sh": {
       "category": "template",
@@ -518,7 +518,7 @@
     },
     "scripts\\sync-template.sh": {
       "category": "template",
-      "hash": "\\d057b7f4d2acb229d7a4e0b1701f02b6aa666cbf6287382ca5d5dde0260d0a8e"
+      "hash": "\\70cb45b94ad955177bb83a25520064ffb2208c13056db2827089aa5d23142be7"
     },
     "scripts\\test-hooks.sh": {
       "category": "template",
@@ -663,6 +663,42 @@
     ".claude/skills\\test-rules\\SKILL.md": {
       "category": "template",
       "hash": "\\430c3d3c6ec4fe7169b10951bbb71f4f15b5ccc17a97ae54ca48fa2dee6a20e1"
+    },
+    ".claude/rules\\context-first.md": {
+      "category": "template",
+      "hash": "\\b5c7e56ce18f80b58c04ba3163c268c0183489c95485eb08d0b4401bce0d67b6"
+    },
+    ".claude/rules\\plan-first.md": {
+      "category": "template",
+      "hash": "\\7a46c60d0de77ea9942e4202f904c6455946ce0811b2e07849947fb78b9dd7ad"
+    },
+    ".claude/rules\\research-first.md": {
+      "category": "template",
+      "hash": "\\149cd904ff1751e61022a117778fdb2e3321ce78421ea48f064ab6109731702e"
+    },
+    ".claude/rules\\writing.md": {
+      "category": "template",
+      "hash": "\\5bda9c9cbe77ffff7befe59acf9489ad3ec0ed5ac2636cda85873a987e82d013"
+    },
+    ".claude/pipelines\\bugfix.md": {
+      "category": "template",
+      "hash": "\\c0f704123842064505306dee1d7f27d1291d4e4fc75a720ea553d4cde81986c8"
+    },
+    ".claude/pipelines\\feature.md": {
+      "category": "template",
+      "hash": "\\91103b50b3444b973d2b20ad73ad877fc03919b60382bcdc46907732ab414289"
+    },
+    ".claude/pipelines\\security-patch.md": {
+      "category": "template",
+      "hash": "\\862818943bf17a1185663a12ec3fdc147f5897863ceb218483009d11bdf806a3"
+    },
+    "tests/rules\\domain-health.test.md": {
+      "category": "template",
+      "hash": "\\d0beaf20ea840cdde0dc17177580ee038d5d8845a34619b0484a25c30acf830b"
+    },
+    "tests/rules\\domain-software.test.md": {
+      "category": "template",
+      "hash": "\\ac58d47c1fed09bc63f062079bf4cf9208f4ee317d7a7125bc12f08cd0e01996"
     }
   }
 }
