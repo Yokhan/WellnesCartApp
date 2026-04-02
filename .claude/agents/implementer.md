@@ -33,6 +33,20 @@ Output research summary before proceeding:
 RESEARCH: Read [N files]. Recent changes: [relevant]. Lessons: [applicable or none]. Existing code: [reusable or none]. Approach: [chosen and why].
 ```
 
+**Before fresh research**: check `tasks/.research-cache.md` — findings may already exist from a previous pass or pre-compaction save. Update existing entries, don't duplicate.
+
+**After research**: append findings to `tasks/.research-cache.md` (date, files, findings, status). This survives compaction.
+
+**Search Before Create** (mandatory for any new utility/helper/component):
+1. grep/glob project for similar functionality
+2. Check `_reference/tool-registry.md` — is it already registered?
+3. Check `_reference/README.md` — is there a canonical pattern?
+4. If found → REUSE. If close match → EXTEND. Don't write new code for solved problems.
+5. If creating new shared utility → register it in tool-registry immediately.
+6. If one-off → inline, don't extract to shared/
+
+See `.claude/rules/atomic-reuse.md` for full protocol.
+
 Skip research ONLY for XS tasks (single-file, ≤5 lines, zero logic). See `.claude/rules/research-first.md`.
 
 ## Planning Phase (MANDATORY for S+ tasks)

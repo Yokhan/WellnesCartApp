@@ -32,6 +32,16 @@ if [ -f "tasks/current.md" ]; then
   head -3 tasks/current.md 2>/dev/null || true
 fi
 
+# Tool registry check
+if [ -f "_reference/tool-registry.md" ]; then
+  REGISTRY_ENTRIES=$(grep -cE "^\| [^_|]" _reference/tool-registry.md 2>/dev/null || echo 0)
+  if [ "$REGISTRY_ENTRIES" -lt 8 ] && [ -d src ]; then
+    echo "WARNING: Tool registry has few entries ($REGISTRY_ENTRIES). Run: bash scripts/audit-reuse.sh"
+  fi
+elif [ -d src ]; then
+  echo "WARNING: No _reference/tool-registry.md found. Run: bash scripts/scan-project.sh"
+fi
+
 # PROJECT_SPEC.md freshness check
 if [ -f "PROJECT_SPEC.md" ]; then
   # Cross-platform: use python for date math (works on Windows Git Bash, Linux, macOS)
@@ -45,7 +55,7 @@ try:
 except:
     print(-1)
 " 2>/dev/null || echo -1)
-    if [ "$days_old" -gt 7 ] 2>/dev/null; then
+    if [ -n "$days_old" ] && [ "$days_old" -ne -1 ] && [ "$days_old" -gt 7 ]; then
       echo "WARNING: PROJECT_SPEC.md is ${days_old} days old. Regenerate it (see .claude/rules/context-first.md)."
     fi
   fi
@@ -103,6 +113,31 @@ if [ -f tasks/lessons.md ]; then
   LESSON_COUNT=$(grep -c "^### " tasks/lessons.md 2>/dev/null || echo 0)
   if [ "$LESSON_COUNT" -gt 40 ]; then
     echo "INFO: $LESSON_COUNT lessons in lessons.md — consider running /weekly to promote patterns to rules"
+  fi
+fi
+
+# Agent frontmatter validation
+if [ -d ".claude/agents" ]; then
+  AGENT_ERRORS=0
+  for agent_file in .claude/agents/*.md; do
+    [ -f "$agent_file" ] || continue
+    # Check frontmatter exists (starts with ---)
+    first_line=$(head -1 "$agent_file" 2>/dev/null)
+    if [ "$first_line" != "---" ]; then
+      echo "ERROR: $agent_file missing frontmatter (no --- on line 1)"
+      AGENT_ERRORS=$((AGENT_ERRORS + 1))
+      continue
+    fi
+    # Check required fields: name, model
+    has_name=$(head -10 "$agent_file" | grep -c "^name:" 2>/dev/null || echo 0)
+    has_model=$(head -10 "$agent_file" | grep -c "^model:" 2>/dev/null || echo 0)
+    if [ "$has_name" -eq 0 ] || [ "$has_model" -eq 0 ]; then
+      echo "ERROR: $agent_file frontmatter missing name or model field"
+      AGENT_ERRORS=$((AGENT_ERRORS + 1))
+    fi
+  done
+  if [ "$AGENT_ERRORS" -gt 0 ]; then
+    echo "WARNING: $AGENT_ERRORS agent(s) have broken frontmatter — they won't launch correctly"
   fi
 fi
 
