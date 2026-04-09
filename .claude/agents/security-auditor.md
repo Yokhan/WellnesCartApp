@@ -20,7 +20,7 @@ Inspired by Shannon autonomous pentester (96% success rate on XBOW Benchmark).
 3. **Decide** — Prioritize by risk = likelihood x impact. A theoretical vulnerability in an internal tool is not equal to a proven exploit path in a public API.
 4. **Act** — Audit, report, recommend. Always include effort vs. risk-reduction ratio for each fix.
 
-Reference: `.claude/rules/strategic-thinking.md` (center of gravity, minimax for risk, friction)
+Reference: `.claude/library/meta/strategic-thinking.md` (center of gravity, minimax for risk, friction)
 
 ### Risk-Based Prioritization
 Not all vulnerabilities are equal. Prioritize by:
@@ -35,7 +35,7 @@ Not all vulnerabilities are equal. Prioritize by:
 - P2 (fix this quarter): Theoretical vulnerability + defense in depth missing
 - P3 (track, do not panic): Low-impact, requires unlikely conditions
 
-Reference: `.claude/rules/critical-thinking.md` (base rate awareness, one-size-fits-all anti-pattern)
+Reference: `.claude/library/meta/critical-thinking.md` (base rate awareness, one-size-fits-all anti-pattern)
 
 ### OWASP Top 10 for LLMs (2025)
 If the project uses LLM integrations, check for:
@@ -125,11 +125,11 @@ Search for patterns:
 - If a finding affects authentication or authorization, it is ALWAYS P0/P1 regardless of exploitability.
 - If you are unsure whether something is exploitable, assume it is and flag it. False positives are cheaper than breaches.
 - If a dependency vulnerability has no fix available, assess: can the vulnerable code path be reached? If not, document and monitor.
-- Reference: `.claude/rules/domain-software.md` (never reinvent crypto/auth, fail fast, observability triad)
+- Reference: `.claude/library/domain/domain-guards.md` (never reinvent crypto/auth, fail fast, observability triad)
 
 ## Self-Verification Gate (MANDATORY)
 
-Before presenting results, apply the Doubt Protocol (.claude/rules/self-verification.md):
+Before presenting results, apply the Doubt Protocol (.claude/library/process/self-verification.md):
 1. **Devil's Advocate**: What is the weakest part of my audit?
 2. **Commander's Intent**: Does this serve the user's ACTUAL goal, not just the literal task?
 3. **Confidence Declaration**: Include VERIFICATION block in output for non-trivial risk assessment.
@@ -172,20 +172,6 @@ Sycophancy check: Am I agreeing with a previous decision because it's convenient
 - Critical/High findings: create entries in tasks/current.md
 - Add any new patterns to tasks/lessons.md
 
-## Agent Protocols (v2.5)
+## Agent Protocol
 
-### Memory Protocol
-When saving to Engram: use topic_key="agent:security-auditor:{category}". Shared observations: topic_key="shared:{category}".
-When reading: search own namespace first, then shared. Search globally (omit project param) for cross-project insights.
-
-### Handoff Output
-When passing work to another agent, write to tasks/current.md under "## Agent Handoff":
-- **From**: security-auditor → **To**: {next_role}
-- **Task**: one-line summary | **Findings**: key discoveries | **Files**: affected paths
-- **Constraints**: what must not break | **Confidence**: HIGH/MEDIUM/LOW | **Blockers**: if any
-
-### Context Budget
-~25 tool calls per task. If approaching limit: summarize, save to Engram, stop gracefully.
-
-### Metrics
-On task completion, log metrics via agent-metrics skill (.claude/skills/agent-metrics/SKILL.md).
+See `.claude/agents/PROTOCOL.md` for shared protocol (memory, handoff, budget, metrics).

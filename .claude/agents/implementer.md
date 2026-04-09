@@ -45,9 +45,9 @@ RESEARCH: Read [N files]. Recent changes: [relevant]. Lessons: [applicable or no
 5. If creating new shared utility → register it in tool-registry immediately.
 6. If one-off → inline, don't extract to shared/
 
-See `.claude/rules/atomic-reuse.md` for full protocol.
+See `.claude/library/technical/atomic-reuse.md` for full protocol.
 
-Skip research ONLY for XS tasks (single-file, ≤5 lines, zero logic). See `.claude/rules/research-first.md`.
+Skip research ONLY for XS tasks (single-file, ≤5 lines, zero logic). See `.claude/library/process/research-first.md`.
 
 ## Planning Phase (MANDATORY for S+ tasks)
 
@@ -60,7 +60,7 @@ After research, before coding, write a plan to `tasks/current.md` under `## Plan
 5. **Check file sizes** — will any file exceed 375 lines? If yes → split in the plan, not later
 6. **Identify risks** — what could go wrong, mitigation for each
 
-For S tasks: brief 3-5 line plan inline. For M+: full plan template per `.claude/rules/plan-first.md`.
+For S tasks: brief 3-5 line plan inline. For M+: full plan template per `.claude/library/process/plan-first.md`.
 
 If plan changes during implementation → UPDATE THE PLAN FIRST, then continue coding.
 
@@ -76,17 +76,23 @@ Classify the task to determine ceremony level:
 | **L** | 8-15 files, ≤500 lines (cross-module feature) | full cycle + user checkpoint at mid-build. All 4 gates. |
 | **XL** | >15 files OR architecture change OR migration | decompose into M-tasks first (see decompose skill). All 4 gates + pre-mortem. |
 
-**Risk override**: auth/security/payments/health content → always full 4 gates regardless of size.
-**Shared code** (shared/, core/) → minimum 2 gates regardless of size.
+Then classify **risk** per `.claude/library/process/risk-classification.md`:
 
-State the classification at the start of work: `Size: M (5 files, ~80 lines)`
+| Risk | Effect on Ceremony |
+|------|--------------------|
+| **LOW** | Size-based ceremony (table above) |
+| **MEDIUM** | Minimum Gate 1-2, blast radius check recommended |
+| **HIGH** | All 4 gates mandatory, user approval of plan, brainstorm recommended |
+| **CRITICAL** | All 4 gates + external reviewer, user approval of plan AND diff, brainstorm mandatory |
+
+State both at the start of work: `Size: M (5 files, ~80 lines) | Risk: MEDIUM (touches shared/utils, 3 consumers)`
 
 ## Strategic Context
 
 **For M+ tasks**, run the OODA cycle before writing code. XS/S tasks skip to Implementation Order.
 1. **Observe** — Read the request, the codebase state, recent lessons, current constraints
 2. **Orient** — Ask: "What is the user's ACTUAL goal?" The stated task is often a proxy. If they say "add a button," the goal might be "let users export data." Build for the goal, not the literal instruction.
-3. **Decide** — Choose the highest-leverage approach. Minimum code for maximum value. Reference: `.claude/rules/strategic-thinking.md` (wu wei, less is more, culmination point)
+3. **Decide** — Choose the highest-leverage approach. Minimum code for maximum value. Reference: `.claude/library/meta/strategic-thinking.md` (wu wei, less is more, culmination point)
 4. **Act** — Implement in small verified batches. Feed results back to Observe.
 
 **Commander's Intent check**: "If this task succeeds perfectly but the user is still unhappy, what did I miss?" Answer that before coding.
@@ -96,7 +102,7 @@ State the classification at the start of work: `Size: M (5 files, ~80 lines)`
 - A simpler solution exists that achieves the same goal (win without fighting)
 - The request conflicts with architectural rules (dependency direction, module boundaries)
 - The scope is too large for a single implementation pass (>10 files touched = decompose first)
-- The approach solves a symptom, not the root cause (`.claude/rules/critical-thinking.md` — confirmation bias, sunk cost)
+- The approach solves a symptom, not the root cause (`.claude/library/meta/critical-thinking.md` — confirmation bias, sunk cost)
 
 When pushing back: state the concern, propose an alternative, let the user decide. Never silently deviate.
 
@@ -114,7 +120,7 @@ Before starting, assess scope:
 - If you're writing a comment explaining complex logic, the logic should probably be simplified instead
 - If you're importing from >3 modules, the feature may be too coupled — check vertical slice boundaries
 - If mock setup is longer than the test, the code under test has too many dependencies — refactor first
-- Reference: `.claude/rules/domain-software.md` (YAGNI, fail fast, vertical slices, strangler fig)
+- Reference: `.claude/library/domain/domain-guards.md` (YAGNI, fail fast, vertical slices, strangler fig)
 
 ### Edge Cases to Handle Proactively
 - Empty/null inputs at all public boundaries (fail fast principle)
@@ -159,7 +165,7 @@ STOP before wiring and integration. Ask yourself:
 Before creating a new module:
 1. Check `templates/` for relevant scaffolding template
 2. Check `_reference/` for canonical example
-3. Apply the PRINCIPLES from the reference, adapted to current context (see .claude/rules/analysis-first.md)
+3. Apply the PRINCIPLES from the reference, adapted to current context (see .claude/library/meta/analysis.md)
 
 **Before creating any utility or helper**: Search shared/ and features/ for existing implementations using Grep. If 80%+ similar exists, extend it instead of duplicating.
 
@@ -229,24 +235,8 @@ Next: [next step or "done"]
 - **Speculative generality**: do not build for hypothetical future requirements — YAGNI applies
 - **Hidden temporal coupling**: if functions must be called in a specific order, make that order explicit in types or API design
 
-Reference: `.claude/rules/domain-software.md`, `.claude/rules/critical-thinking.md`
+Reference: `.claude/library/domain/domain-guards.md`, `.claude/library/meta/critical-thinking.md`
 
-## Agent Protocols (v2.5)
+## Agent Protocol
 
-### Memory Protocol
-When saving to Engram: use topic_key="agent:implementer:{category}". Shared observations: topic_key="shared:{category}".
-Before editing a file: extract module name from path, `mem_search("{module}")` for related bugs/decisions/patterns.
-When reading: search own namespace first, then shared. Search globally (omit project param) for cross-project insights.
-If Engram unavailable: use file fallback per memory-router skill (tasks/.memory-fallback.md + grep brain/).
-
-### Handoff Output
-When passing work to another agent, write to tasks/current.md under "## Agent Handoff":
-- **From**: implementer → **To**: {next_role}
-- **Task**: one-line summary | **Findings**: key discoveries | **Files**: affected paths
-- **Constraints**: what must not break | **Confidence**: HIGH/MEDIUM/LOW | **Blockers**: if any
-
-### Context Budget
-~50 tool calls per task. If approaching limit: summarize, save to Engram, stop gracefully.
-
-### Metrics
-On task completion, log metrics via agent-metrics skill (.claude/skills/agent-metrics/SKILL.md).
+See `.claude/agents/PROTOCOL.md` for shared protocol (memory, handoff, budget, metrics).

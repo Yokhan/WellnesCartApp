@@ -1,6 +1,29 @@
 #!/bin/bash
 # Session Start Hook — creates session log, shows reminders, checks template
 
+# Node.js detection (required for JSON parsing)
+if command -v node &>/dev/null; then NODE="node"
+else NODE=""; fi
+
+# CRITICAL: Node.js is required for template infrastructure
+if [ -z "$NODE" ]; then
+  echo ""
+  echo "============================================="
+  echo "  WARNING: Node.js not found"
+  echo "============================================="
+  echo ""
+  echo "  This agent template uses Node.js for:"
+  echo "  - Template sync (manifest JSON parsing)"
+  echo "  - Drift detection (hash verification)"
+  echo "  - MCP servers"
+  echo ""
+  echo "  Install Node.js: https://nodejs.org/"
+  echo "============================================="
+  echo ""
+  # Don't exit 1 — that would block Claude Code entirely.
+  # with degraded functionality.
+fi
+
 # TEST_MODE guard
 if [ "$TEST_MODE" = "1" ]; then
   echo "test-mode: would create session log and show reminders"
@@ -23,13 +46,18 @@ if [ -d "brain/01-daily" ]; then
   echo "" >> "$f"
 fi
 
-# Reminders
-if [ -f "tasks/lessons.md" ]; then
-  echo "REMINDER: Read tasks/lessons.md for past learnings"
+# Context restore (replaces manual reminders)
+if [ -f "scripts/context-restore.sh" ]; then
+  bash scripts/context-restore.sh 2>/dev/null || true
+else
+  # Fallback: manual reminders
+  [ -f "tasks/lessons.md" ] && echo "REMINDER: Read tasks/lessons.md"
+  [ -f "tasks/current.md" ] && echo "REMINDER: Read tasks/current.md" && head -3 tasks/current.md 2>/dev/null || true
 fi
-if [ -f "tasks/current.md" ]; then
-  echo "REMINDER: Read tasks/current.md for handoff context"
-  head -3 tasks/current.md 2>/dev/null || true
+
+# Context budget check
+if [ -f "scripts/measure-context.sh" ]; then
+  bash scripts/measure-context.sh --budget 200 2>/dev/null | tail -3
 fi
 
 # Tool registry check
@@ -44,23 +72,20 @@ fi
 
 # PROJECT_SPEC.md freshness check
 if [ -f "PROJECT_SPEC.md" ]; then
-  # Cross-platform: use python for date math (works on Windows Git Bash, Linux, macOS)
+  # Date math in pure bash (no python needed)
   spec_date=$(grep -E '^[0-9]{4}-[0-9]{2}-[0-9]{2}' PROJECT_SPEC.md 2>/dev/null | tail -1 | grep -oE '[0-9]{4}-[0-9]{2}-[0-9]{2}')
   if [ -n "$spec_date" ]; then
-    days_old=$(python3 -c "
-from datetime import datetime
-try:
-    d = datetime.strptime('$spec_date', '%Y-%m-%d')
-    print((datetime.now() - d).days)
-except:
-    print(-1)
-" 2>/dev/null || echo -1)
-    if [ -n "$days_old" ] && [ "$days_old" -ne -1 ] && [ "$days_old" -gt 7 ]; then
-      echo "WARNING: PROJECT_SPEC.md is ${days_old} days old. Regenerate it (see .claude/rules/context-first.md)."
+    now_epoch=$(date +%s 2>/dev/null || echo 0)
+    spec_epoch=$(date -d "$spec_date" +%s 2>/dev/null || date -j -f "%Y-%m-%d" "$spec_date" +%s 2>/dev/null || echo 0)
+    if [ "$now_epoch" -gt 0 ] && [ "$spec_epoch" -gt 0 ]; then
+      days_old=$(( (now_epoch - spec_epoch) / 86400 ))
+      if [ "$days_old" -gt 7 ]; then
+        echo "WARNING: PROJECT_SPEC.md is ${days_old} days old. Regenerate it (see .claude/library/process/context-first.md)."
+      fi
     fi
   fi
 else
-  echo "ACTION: PROJECT_SPEC.md not found. Generate it now (see .claude/rules/context-first.md)."
+  echo "ACTION: PROJECT_SPEC.md not found. Generate it now (see .claude/library/process/context-first.md)."
 fi
 
 # Uncommitted changes warning
@@ -76,7 +101,7 @@ fi
 
 # Template version check
 if [ -f ".template-manifest.json" ] && [ -f "scripts/check-drift.sh" ]; then
-  proj_ver=$(python3 -c "import json; print(json.load(open('.template-manifest.json'))['template_version'])" 2>/dev/null || true)
+  proj_ver=$(node -e "console.log(JSON.parse(require('fs').readFileSync('.template-manifest.json','utf8')).template_version)" 2>/dev/null || true)
   script_ver=$(grep -o 'TEMPLATE_VERSION="[^"]*"' scripts/check-drift.sh 2>/dev/null | head -1 | cut -d'"' -f2 || true)
   if [ -n "$proj_ver" ] && [ -n "$script_ver" ] && [ "$proj_ver" != "$script_ver" ]; then
     echo "WARNING: Template outdated ($proj_ver vs $script_ver). Run /update-template."
@@ -121,6 +146,8 @@ if [ -d ".claude/agents" ]; then
   AGENT_ERRORS=0
   for agent_file in .claude/agents/*.md; do
     [ -f "$agent_file" ] || continue
+    # Skip PROTOCOL.md — it's a shared protocol doc, not an agent definition
+    [ "$(basename "$agent_file")" = "PROTOCOL.md" ] && continue
     # Check frontmatter exists (starts with ---)
     first_line=$(head -1 "$agent_file" 2>/dev/null)
     if [ "$first_line" != "---" ]; then
@@ -143,9 +170,9 @@ fi
 
 # MCP health check: verify Engram is reachable
 if [ -f ".mcp.json" ]; then
-  HAS_ENGRAM=$(python3 -c "import json; d=json.load(open('.mcp.json')); print('yes' if 'engram' in d.get('mcpServers',{}) and not d['mcpServers']['engram'].get('disabled') else 'no')" 2>/dev/null || echo "no")
+  HAS_ENGRAM=$(node -e "const d=JSON.parse(require('fs').readFileSync('.mcp.json','utf8'));console.log(d.mcpServers?.engram&&!d.mcpServers.engram.disabled?'yes':'no')" 2>/dev/null || echo "no")
   if [ "$HAS_ENGRAM" = "yes" ]; then
-    ENGRAM_CMD=$(python3 -c "import json; print(json.load(open('.mcp.json'))['mcpServers']['engram']['command'])" 2>/dev/null || echo "")
+    ENGRAM_CMD=$(node -e "console.log(JSON.parse(require('fs').readFileSync('.mcp.json','utf8')).mcpServers.engram.command)" 2>/dev/null || echo "")
     if [ -n "$ENGRAM_CMD" ] && ! command -v "$ENGRAM_CMD" &>/dev/null 2>&1; then
       echo "WARNING: Engram configured but binary not found ($ENGRAM_CMD). Memory will use file fallback."
       echo "  Fix: bash scripts/bootstrap-mcp.sh --install"
