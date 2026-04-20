@@ -15,7 +15,8 @@ const GRADE_STYLE: Record<NutriGrade, { bg: string; color: string }> = {
   E: { bg: 'rgba(160,64,48,0.12)', color: '#A04030' },
 };
 
-const SIZES: Record<string, { w: number; fs: number }> = {
+type Size = 'sm' | 'md' | 'lg';
+const SIZES: Record<Size, { w: number; fs: number }> = {
   sm: { w: 24, fs: 11 },
   md: { w: 30, fs: 13 },
   lg: { w: 40, fs: 18 },

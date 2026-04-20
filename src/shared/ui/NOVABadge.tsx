@@ -6,7 +6,7 @@ interface NOVABadgeProps {
   showLabel?: boolean;
 }
 
-const NOVA_STYLE: Record<number, { color: string; bg: string; label: string }> = {
+const NOVA_STYLE: Record<1 | 2 | 3 | 4, { color: string; bg: string; label: string }> = {
   1: { color: '#4A7C59', bg: 'rgba(74,124,89,0.10)', label: 'Необработанный' },
   2: { color: '#8B7535', bg: 'rgba(139,117,53,0.10)', label: 'Обработанный' },
   3: { color: '#A0522D', bg: 'rgba(160,82,45,0.10)', label: 'Переработанный' },

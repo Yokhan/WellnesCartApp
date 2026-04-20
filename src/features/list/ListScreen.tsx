@@ -2,7 +2,7 @@ import type { JSX } from 'preact';
 import { useEffect, useState } from 'preact/hooks';
 import { useLocation } from 'wouter-preact';
 import {
-  Col, Grid, Card, H3, Label, Metric, Callout, Button, Disclaimer,
+  Col, Grid, H3, Label, Metric, Callout, Button, Disclaimer,
 } from '../../shared/ui';
 import { C, ff, space } from '../../shared/ui/tokens';
 import { formatRub } from '../../shared/format';
@@ -36,10 +36,14 @@ export function ListScreen(): JSX.Element {
   if (!list || !profile) {
     return (
       <div style={{
-        minHeight: '100vh', display: 'flex',
-        alignItems: 'center', justifyContent: 'center',
+        minHeight: '100vh',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
       }}>
-        <span style={{ color: C.muted, fontSize: 14 }}>Загружаем список...</span>
+        <span style={{ color: C.muted, fontSize: 14 }}>
+          Загружаем список...
+        </span>
       </div>
     );
   }
@@ -61,26 +65,38 @@ export function ListScreen(): JSX.Element {
   return (
     <div style={{ minHeight: '100vh', background: C.bg, paddingBottom: 80 }}>
       <div style={{
-        maxWidth: space.maxWidth, margin: '0 auto',
-        padding: space.pagePad, paddingTop: 24,
+        maxWidth: space.maxWidth,
+        margin: '0 auto',
+        padding: space.pagePad,
+        paddingTop: 24,
       }}>
         <Col gap={space.gap.wide}>
           {/* Header */}
           <header style={{
-            display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between',
+            display: 'flex',
+            alignItems: 'flex-start',
+            justifyContent: 'space-between',
           }}>
             <div>
               <Label>Список покупок</Label>
               <h1 style={{
-                fontFamily: ff.serif, fontSize: 26, fontWeight: 700,
-                color: C.text, margin: '4px 0 0', lineHeight: 1.2,
+                fontFamily: ff.serif,
+                fontSize: 26,
+                fontWeight: 700,
+                color: C.text,
+                margin: '4px 0 0',
+                lineHeight: 1.2,
               }}>
                 {list.period}
               </h1>
             </div>
             <span style={{
-              fontFamily: ff.serif, fontSize: 13, fontWeight: 700,
-              color: C.accent, letterSpacing: 2.5, marginTop: 4,
+              fontFamily: ff.serif,
+              fontSize: 13,
+              fontWeight: 700,
+              color: C.accent,
+              letterSpacing: 2.5,
+              marginTop: 4,
             }}>
               BUFF EAT
             </span>
@@ -89,11 +105,26 @@ export function ListScreen(): JSX.Element {
           {/* Welcome card */}
           {showWelcome && (
             <Callout color={C.blue}>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-                <span style={{ fontWeight: 600 }}>
-                  Ваш список собран на основе цели ({profile.goal}), бюджета и привычек.
+              <div style={{
+                display: 'flex',
+                flexDirection: 'column',
+                gap: 10,
+              }}>
+                <span style={{
+                  fontWeight: 600,
+                  fontFamily: ff.sans,
+                  fontSize: 14,
+                  color: C.text,
+                }}>
+                  Ваш список собран на основе цели ({profile.goal}),
+                  бюджета и привычек.
                 </span>
-                <span>
+                <span style={{
+                  fontSize: 13,
+                  fontFamily: ff.sans,
+                  color: C.mid,
+                  lineHeight: 1.5,
+                }}>
                   Свайп влево — удалить товар. Нажмите на строку — подробности.
                   Каждую неделю предлагаем замены для мягкого улучшения рациона.
                 </span>
@@ -133,7 +164,10 @@ export function ListScreen(): JSX.Element {
           <Col gap={space.gap.wide}>
             {sections.map((s) => (
               <section key={s.category}>
-                <H3 style={{ marginBottom: space.gap.tight, paddingLeft: 2 }}>
+                <H3 style={{
+                  marginBottom: space.gap.tight,
+                  paddingLeft: 2,
+                }}>
                   {s.label}
                 </H3>
                 <Col gap={space.gap.tight}>
@@ -153,7 +187,8 @@ export function ListScreen(): JSX.Element {
           </div>
 
           <Disclaimer>
-            Цены обновлены в базе прототипа (Q1 2026). Расчёты ₽/г белка — арифметика, не медицинская рекомендация.
+            Цены обновлены в базе прототипа (Q1 2026).
+            Расчёты ₽/г белка — арифметика, не медицинская рекомендация.
           </Disclaimer>
         </Col>
       </div>

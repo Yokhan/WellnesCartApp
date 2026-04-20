@@ -1,5 +1,5 @@
 import type { JSX } from 'preact';
-import { Col, Card, H2, P, Label, Pill, Chip } from '../../../shared/ui';
+import { Col, Card, H2, P, Label, Chip } from '../../../shared/ui';
 import { C, ff, space } from '../../../shared/ui/tokens';
 import { formatRub } from '../../../shared/format';
 import type { Goal } from '../../../shared/types';

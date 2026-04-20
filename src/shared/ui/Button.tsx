@@ -11,14 +11,17 @@ interface ButtonProps {
   type?: 'button' | 'submit';
 }
 
-const VARIANTS: Record<string, { bg: string; color: string; border: string }> = {
+type Variant = 'primary' | 'secondary' | 'ghost' | 'danger';
+type Size = 'sm' | 'md' | 'lg';
+
+const VARIANTS: Record<Variant, { bg: string; color: string; border: string }> = {
   primary:   { bg: C.accent, color: '#FFF', border: 'transparent' },
   secondary: { bg: C.accentBg, color: C.accent, border: `${C.accent}33` },
   ghost:     { bg: 'transparent', color: C.mid, border: 'transparent' },
   danger:    { bg: 'rgba(160,82,45,0.08)', color: '#A04030', border: 'rgba(160,64,48,0.2)' },
 };
 
-const SIZES: Record<string, { padding: string; fontSize: number }> = {
+const SIZES: Record<Size, { padding: string; fontSize: number }> = {
   sm: { padding: '6px 14px', fontSize: 13 },
   md: { padding: '10px 20px', fontSize: 14.5 },
   lg: { padding: '14px 28px', fontSize: 16 },

@@ -2,7 +2,7 @@ import type { JSX } from 'preact';
 import { useLocation } from 'wouter-preact';
 import type { ProductDetail, ShoppingList } from '../../shared/types';
 import { Card, NutriBadge, NOVABadge, Num, DeltaChip, Tag, Button } from '../../shared/ui';
-import { C, ff, space } from '../../shared/ui/tokens';
+import { C, ff } from '../../shared/ui/tokens';
 import { formatRub } from '../../shared/format';
 import { activeListSignal, persistList } from '../../shared/state';
 import { api } from '../../data';
@@ -13,7 +13,10 @@ interface Props {
   list: ShoppingList | null;
 }
 
-function computeReasonTag(alt: ProductDetail, current: ProductDetail): { label: string; color: string; bg: string } {
+function computeReasonTag(
+  alt: ProductDetail,
+  current: ProductDetail,
+): { label: string; color: string; bg: string } {
   const priceDelta = alt.price_rub - current.price_rub;
   const proteinDelta = alt.nutrients_per_100g.protein_g - current.nutrients_per_100g.protein_g;
   const scoreDelta = alt.value.composite_score - current.value.composite_score;
@@ -62,7 +65,9 @@ export function AlternativesCarousel({ alternatives, currentProduct, list }: Pro
     }}>
       {alternatives.map((alt, idx) => {
         const priceDelta = Math.round(alt.price_rub - currentProduct.price_rub);
-        const proteinDelta = +(alt.nutrients_per_100g.protein_g - currentProduct.nutrients_per_100g.protein_g).toFixed(1);
+        const proteinDelta = +(
+          alt.nutrients_per_100g.protein_g - currentProduct.nutrients_per_100g.protein_g
+        ).toFixed(1);
         const reason = computeReasonTag(alt, currentProduct);
 
         return (
@@ -72,8 +77,20 @@ export function AlternativesCarousel({ alternatives, currentProduct, list }: Pro
               <div style={{ display: 'flex', alignItems: 'flex-start', gap: 10, marginBottom: 10 }}>
                 <Num n={idx + 1} />
                 <div style={{ flex: 1, minWidth: 0 }}>
-                  <div style={{ fontFamily: ff.serif, fontWeight: 600, fontSize: 15, color: C.text, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{alt.name}</div>
-                  <div style={{ fontSize: 12, color: C.muted, marginTop: 2 }}>{alt.store} · {formatRub(alt.price_rub)}</div>
+                  <div style={{
+                    fontFamily: ff.serif,
+                    fontWeight: 600,
+                    fontSize: 15,
+                    color: C.text,
+                    overflow: 'hidden',
+                    textOverflow: 'ellipsis',
+                    whiteSpace: 'nowrap',
+                  }}>
+                    {alt.name}
+                  </div>
+                  <div style={{ fontSize: 12, color: C.muted, marginTop: 2 }}>
+                    {alt.store} · {formatRub(alt.price_rub)}
+                  </div>
                 </div>
               </div>
 

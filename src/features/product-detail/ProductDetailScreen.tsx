@@ -3,11 +3,11 @@ import { useEffect, useState } from 'preact/hooks';
 import { useLocation } from 'wouter-preact';
 import type { ProductDetail } from '../../shared/types';
 import {
-  Button, Card, Callout, Chip, Disclaimer, EvidenceTag, H2, H3, Label,
+  Button, Card, Callout, Chip, Disclaimer, H3, Label,
   NutriBadge, NOVABadge, ConvenienceBadge, ScoreBreakdown, Tag,
 } from '../../shared/ui';
 import { C, ff, space } from '../../shared/ui/tokens';
-import { formatRub, formatGrams, formatPerProtein, formatPer100Kcal } from '../../shared/format';
+import { formatRub, formatGrams } from '../../shared/format';
 import { userProfileSignal, activeListSignal } from '../../shared/state';
 import { api } from '../../data';
 import { AlternativesCarousel } from './AlternativesCarousel';
@@ -19,10 +19,10 @@ const WEIGHTS = {
 };
 
 const GATE_TRANSLATIONS: Record<string, string> = {
-  'NutriScore D':                  'Невысокое качество состава (NutriScore D)',
-  'NutriScore E':                  'Низкое качество состава (NutriScore E)',
-  'NOVA-4 + низкий NutriScore':    'Высокая степень обработки при невысоком качестве',
-  'Трансжиры':                     'Повышенное содержание трансжиров',
+  'NutriScore D':               'Невысокое качество состава (NutriScore D)',
+  'NutriScore E':               'Низкое качество состава (NutriScore E)',
+  'NOVA-4 + низкий NutriScore': 'Высокая степень обработки при невысоком качестве',
+  'Трансжиры':                  'Повышенное содержание трансжиров',
 };
 
 function translateGateReason(raw: string): string {
@@ -63,7 +63,7 @@ export function ProductDetailScreen({ productId }: Props): JSX.Element {
   return (
     <div style={{ minHeight: '100vh', background: C.bg, paddingBottom: 80, fontFamily: ff.sans }}>
       <div style={{ maxWidth: space.maxWidth, margin: '0 auto', padding: space.pagePad, paddingTop: 16 }}>
-        <button onClick={() => navigate('/list')} style={{ background: 'none', border: 'none', color: C.muted, fontSize: 14, cursor: 'pointer', marginBottom: 8, padding: 0 }}>
+        <button onClick={() => navigate('/list')} style={{ background: 'none', border: 'none', color: C.muted, fontSize: 14, cursor: 'pointer', marginBottom: 8, padding: 0, fontFamily: ff.sans }}>
           ← К списку
         </button>
 
@@ -84,10 +84,8 @@ export function ProductDetailScreen({ productId }: Props): JSX.Element {
           </div>
         </div>
 
-        {/* NUTRIENTS TABLE */}
         <NutrientsTable n={n} />
 
-        {/* NOVA CLASS */}
         <Card style={{ marginBottom: space.gap.base }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 8 }}>
             <H3>Степень обработки</H3>
@@ -96,19 +94,18 @@ export function ProductDetailScreen({ productId }: Props): JSX.Element {
           <NovaExplanation nova={detail.nova_class} />
         </Card>
 
-        {/* COMPOSITE SCORE */}
         <div style={{ marginBottom: space.gap.base }}>
           <ScoreBreakdown score={detail.value.composite_score} weights={weights} budgetTier={tier} />
         </div>
 
-        {/* QUALITY GATE */}
         <QualityGateBlock gate={detail.gate} />
 
-        {/* INGREDIENTS */}
         {detail.ingredients.length > 0 && (
           <Card style={{ marginBottom: space.gap.base }}>
             <H3>Состав</H3>
-            <p style={{ fontSize: 13, color: C.mid, lineHeight: 1.6, margin: '8px 0' }}>{detail.ingredients.join(', ')}</p>
+            <p style={{ fontSize: 13, color: C.mid, lineHeight: 1.6, margin: '8px 0' }}>
+              {detail.ingredients.join(', ')}
+            </p>
             {detail.e_additives.length > 0 && (
               <div style={{ display: 'flex', flexWrap: 'wrap', gap: 4, marginTop: 8 }}>
                 {detail.e_additives.map((e) => <Tag key={e}>{e}</Tag>)}
@@ -117,7 +114,6 @@ export function ProductDetailScreen({ productId }: Props): JSX.Element {
           </Card>
         )}
 
-        {/* ALTERNATIVES */}
         <H3 style={{ marginBottom: 8 }}>Можно заменить</H3>
         {list && <AlternativesCarousel alternatives={alts} currentProduct={detail} list={list} />}
 

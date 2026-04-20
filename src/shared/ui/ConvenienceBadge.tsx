@@ -5,7 +5,7 @@ interface ConvenienceBadgeProps {
   tier: 1 | 2 | 3;
 }
 
-const LABELS: Record<number, { icon: string; text: string }> = {
+const LABELS: Record<1 | 2 | 3, { icon: string; text: string }> = {
   1: { icon: '🍽', text: 'Готовое' },
   2: { icon: '⏱', text: 'Быстрое (5 мин)' },
   3: { icon: '🔪', text: 'Для готовки' },

@@ -118,7 +118,7 @@ function buildListFromBasket(basket: BasketTemplate, profile: UserProfile): Shop
       to_name: alt.name,
       protein_delta_g: Number((alt.nutrients_per_100g.protein_g - it.product.nutrients_per_100g.protein_g).toFixed(1)),
       price_delta_rub: Number((alt.price_rub - it.product.price_rub).toFixed(0)),
-      reason: reasons[0],
+      reason: reasons[0] ?? 'Лучше общая оценка',
       reasons,
       score_delta: Number((toScore - fromScore).toFixed(2)),
       from_score: Number(fromScore.toFixed(2)),

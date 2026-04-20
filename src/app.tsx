@@ -22,10 +22,16 @@ export function App(): JSX.Element {
   const onboarded = isOnboarded.value;
 
   return (
-    <div style={{ minHeight: '100vh', background: C.bg, color: C.mid }}>
+    <div style={{
+      minHeight: '100vh',
+      background: C.bg,
+      color: C.mid,
+    }}>
       <Switch>
         <Route path="/">
-          {onboarded ? <Redirect to="/list" /> : <Redirect to="/onboarding/pain" />}
+          {onboarded
+            ? <Redirect to="/list" />
+            : <Redirect to="/onboarding/pain" />}
         </Route>
 
         <Route path="/onboarding/:step">
@@ -41,7 +47,9 @@ export function App(): JSX.Element {
         </Route>
 
         <Route path="/list">
-          {userProfileSignal.value ? <ListScreen /> : <Redirect to="/onboarding/pain" />}
+          {userProfileSignal.value
+            ? <ListScreen />
+            : <Redirect to="/onboarding/pain" />}
         </Route>
 
         <Route path="/product/:id">
@@ -51,7 +59,9 @@ export function App(): JSX.Element {
         </Route>
 
         <Route path="/profile">
-          {userProfileSignal.value ? <ProfileScreen /> : <Redirect to="/onboarding/pain" />}
+          {userProfileSignal.value
+            ? <ProfileScreen />
+            : <Redirect to="/onboarding/pain" />}
         </Route>
 
         <Route>

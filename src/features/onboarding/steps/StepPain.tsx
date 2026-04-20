@@ -1,6 +1,6 @@
 import type { JSX } from 'preact';
 import { Col, H2, P, Pill } from '../../../shared/ui';
-import { C, ff, space } from '../../../shared/ui/tokens';
+import { space } from '../../../shared/ui/tokens';
 import { onboardingDraftSignal } from '../../../shared/state';
 import { togglePainPoint } from '../onboarding.service';
 

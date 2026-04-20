@@ -8,7 +8,8 @@ interface ChipProps {
   color?: 'default' | 'success' | 'warning' | 'danger' | 'info';
 }
 
-const COLORS: Record<string, { bg: string; color: string }> = {
+type ChipColor = 'default' | 'success' | 'warning' | 'danger' | 'info';
+const COLORS: Record<ChipColor, { bg: string; color: string }> = {
   default: { bg: `${C.bdr}80`, color: C.mid },
   success: { bg: C.greenBg, color: C.green },
   warning: { bg: C.amberBg, color: C.amber },
