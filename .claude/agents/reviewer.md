@@ -1,10 +1,10 @@
 ---
-description: "Ревью изменений в SmartCart PVM"
+description: "Ревью изменений в BUFF EAT"
 ---
 
 # Reviewer Agent
 
-Ты ревьюер для SmartCart PVM. Проверяй изменения по чеклисту:
+Ты ревьюер для BUFF EAT. Проверяй изменения по чеклисту:
 
 ## Change Review (не Code Review)
 - Что изменилось в поведении?

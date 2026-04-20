@@ -1,0 +1,518 @@
+[
+  {
+    "id": "u-chicken-breast-raw",
+    "name": "Куриное филе сырое",
+    "brand": null,
+    "category": "meat",
+    "image_emoji": "🍗",
+    "weight_g": 1000,
+    "price_rub": 370,
+    "store": "Пятёрочка",
+    "nutrients_per_100g": {
+      "calories_kcal": 113, "protein_g": 23.6, "fat_g": 1.9, "carbs_g": 0,
+      "sugar_g": 0, "fiber_g": 0, "sodium_g": 0.07,
+      "saturated_fat_g": 0.5, "trans_fat_g": 0
+    },
+    "nutriscore_grade": "A", "nova_class": 1,
+    "ingredients": ["филе куриное"], "e_additives": [],
+    "convenience_tier": 3, "use_context": ["cooking"],
+    "tier": "A", "universal_ref_id": null
+  },
+  {
+    "id": "u-chicken-breast-cooked",
+    "name": "Куриное варёное в нарезке",
+    "brand": null,
+    "category": "meat-ready",
+    "image_emoji": "🍗",
+    "weight_g": 300,
+    "price_rub": 240,
+    "store": "ВкусВилл",
+    "nutrients_per_100g": {
+      "calories_kcal": 148, "protein_g": 30, "fat_g": 3, "carbs_g": 0,
+      "sugar_g": 0, "fiber_g": 0, "sodium_g": 0.45,
+      "saturated_fat_g": 0.9, "trans_fat_g": 0
+    },
+    "nutriscore_grade": "A", "nova_class": 2,
+    "ingredients": ["филе куриное", "вода", "соль"], "e_additives": [],
+    "convenience_tier": 1, "use_context": ["sandwich", "snack"],
+    "tier": "A", "universal_ref_id": null
+  },
+  {
+    "id": "u-turkey-sliced",
+    "name": "Индейка нарезка",
+    "brand": null,
+    "category": "meat-ready",
+    "image_emoji": "🦃",
+    "weight_g": 150,
+    "price_rub": 195,
+    "store": "Перекрёсток",
+    "nutrients_per_100g": {
+      "calories_kcal": 135, "protein_g": 26, "fat_g": 3.5, "carbs_g": 0.5,
+      "sugar_g": 0.3, "fiber_g": 0, "sodium_g": 0.6,
+      "saturated_fat_g": 1.1, "trans_fat_g": 0
+    },
+    "nutriscore_grade": "B", "nova_class": 2,
+    "ingredients": ["индейка", "вода", "соль", "специи"], "e_additives": [],
+    "convenience_tier": 1, "use_context": ["sandwich", "snack"],
+    "tier": "A", "universal_ref_id": null
+  },
+  {
+    "id": "u-sausage-doctor",
+    "name": "Колбаса Докторская",
+    "brand": null,
+    "category": "meat-processed",
+    "image_emoji": "🌭",
+    "weight_g": 400,
+    "price_rub": 310,
+    "store": "Пятёрочка",
+    "nutrients_per_100g": {
+      "calories_kcal": 257, "protein_g": 12.8, "fat_g": 22.2, "carbs_g": 1.5,
+      "sugar_g": 0.5, "fiber_g": 0, "sodium_g": 0.9,
+      "saturated_fat_g": 8.4, "trans_fat_g": 0.4
+    },
+    "nutriscore_grade": "D", "nova_class": 4,
+    "ingredients": ["свинина", "говядина", "вода", "крахмал", "соль", "нитрит натрия"],
+    "e_additives": ["E250", "E471", "E621"],
+    "convenience_tier": 1, "use_context": ["sandwich", "snack"],
+    "tier": "A", "universal_ref_id": null
+  },
+  {
+    "id": "u-eggs-10",
+    "name": "Яйца С0 10шт",
+    "brand": null,
+    "category": "eggs",
+    "image_emoji": "🥚",
+    "weight_g": 700,
+    "price_rub": 165,
+    "store": "Пятёрочка",
+    "nutrients_per_100g": {
+      "calories_kcal": 157, "protein_g": 12.7, "fat_g": 11.5, "carbs_g": 0.7,
+      "sugar_g": 0.7, "fiber_g": 0, "sodium_g": 0.13,
+      "saturated_fat_g": 3.1, "trans_fat_g": 0
+    },
+    "nutriscore_grade": "B", "nova_class": 1,
+    "ingredients": ["яйца куриные"], "e_additives": [],
+    "convenience_tier": 2, "use_context": ["breakfast", "cooking"],
+    "tier": "A", "universal_ref_id": null
+  },
+  {
+    "id": "u-cottage-5",
+    "name": "Творог 5%",
+    "brand": null,
+    "category": "dairy",
+    "image_emoji": "🥛",
+    "weight_g": 500,
+    "price_rub": 230,
+    "store": "ВкусВилл",
+    "nutrients_per_100g": {
+      "calories_kcal": 121, "protein_g": 17, "fat_g": 5, "carbs_g": 1.8,
+      "sugar_g": 1.8, "fiber_g": 0, "sodium_g": 0.04,
+      "saturated_fat_g": 3.2, "trans_fat_g": 0
+    },
+    "nutriscore_grade": "A", "nova_class": 1,
+    "ingredients": ["молоко пастеризованное", "закваска"], "e_additives": [],
+    "convenience_tier": 2, "use_context": ["breakfast", "snack"],
+    "tier": "A", "universal_ref_id": null
+  },
+  {
+    "id": "u-yogurt-nat",
+    "name": "Йогурт натуральный 2%",
+    "brand": null,
+    "category": "dairy",
+    "image_emoji": "🥣",
+    "weight_g": 500,
+    "price_rub": 150,
+    "store": "Пятёрочка",
+    "nutrients_per_100g": {
+      "calories_kcal": 57, "protein_g": 4.5, "fat_g": 2, "carbs_g": 5.5,
+      "sugar_g": 5.5, "fiber_g": 0, "sodium_g": 0.05,
+      "saturated_fat_g": 1.3, "trans_fat_g": 0
+    },
+    "nutriscore_grade": "A", "nova_class": 1,
+    "ingredients": ["молоко", "закваска"], "e_additives": [],
+    "convenience_tier": 1, "use_context": ["breakfast", "snack"],
+    "tier": "A", "universal_ref_id": null
+  },
+  {
+    "id": "u-yogurt-strawberry",
+    "name": "Йогурт клубника 1.5%",
+    "brand": null,
+    "category": "dairy",
+    "image_emoji": "🍓",
+    "weight_g": 290,
+    "price_rub": 85,
+    "store": "Перекрёсток",
+    "nutrients_per_100g": {
+      "calories_kcal": 93, "protein_g": 2.8, "fat_g": 1.5, "carbs_g": 16.5,
+      "sugar_g": 14.8, "fiber_g": 0.2, "sodium_g": 0.05,
+      "saturated_fat_g": 1, "trans_fat_g": 0
+    },
+    "nutriscore_grade": "C", "nova_class": 4,
+    "ingredients": ["молоко", "сахар", "пюре клубники", "стабилизаторы"],
+    "e_additives": ["E1442", "E330"],
+    "convenience_tier": 1, "use_context": ["breakfast", "snack"],
+    "tier": "A", "universal_ref_id": null
+  },
+  {
+    "id": "u-oats",
+    "name": "Геркулес 500г",
+    "brand": null,
+    "category": "grains",
+    "image_emoji": "🌾",
+    "weight_g": 500,
+    "price_rub": 95,
+    "store": "Пятёрочка",
+    "nutrients_per_100g": {
+      "calories_kcal": 352, "protein_g": 12.3, "fat_g": 6.2, "carbs_g": 59.5,
+      "sugar_g": 1.2, "fiber_g": 8.1, "sodium_g": 0.02,
+      "saturated_fat_g": 1.4, "trans_fat_g": 0
+    },
+    "nutriscore_grade": "A", "nova_class": 1,
+    "ingredients": ["овсяные хлопья"], "e_additives": [],
+    "convenience_tier": 3, "use_context": ["breakfast", "cooking"],
+    "tier": "A", "universal_ref_id": null
+  },
+  {
+    "id": "u-buckwheat",
+    "name": "Гречка 900г",
+    "brand": null,
+    "category": "grains",
+    "image_emoji": "🌾",
+    "weight_g": 900,
+    "price_rub": 140,
+    "store": "Пятёрочка",
+    "nutrients_per_100g": {
+      "calories_kcal": 343, "protein_g": 13.3, "fat_g": 3.4, "carbs_g": 62.1,
+      "sugar_g": 1.7, "fiber_g": 10, "sodium_g": 0.004,
+      "saturated_fat_g": 0.7, "trans_fat_g": 0
+    },
+    "nutriscore_grade": "A", "nova_class": 1,
+    "ingredients": ["гречневая крупа"], "e_additives": [],
+    "convenience_tier": 3, "use_context": ["cooking", "lunch"],
+    "tier": "A", "universal_ref_id": null
+  },
+  {
+    "id": "u-rice-brown",
+    "name": "Рис бурый 800г",
+    "brand": null,
+    "category": "grains",
+    "image_emoji": "🍚",
+    "weight_g": 800,
+    "price_rub": 180,
+    "store": "Перекрёсток",
+    "nutrients_per_100g": {
+      "calories_kcal": 370, "protein_g": 7.4, "fat_g": 2.8, "carbs_g": 77.2,
+      "sugar_g": 0.8, "fiber_g": 3.5, "sodium_g": 0.005,
+      "saturated_fat_g": 0.6, "trans_fat_g": 0
+    },
+    "nutriscore_grade": "A", "nova_class": 1,
+    "ingredients": ["рис бурый"], "e_additives": [],
+    "convenience_tier": 3, "use_context": ["lunch", "dinner", "cooking"],
+    "tier": "A", "universal_ref_id": null
+  },
+  {
+    "id": "u-bread-whole",
+    "name": "Хлеб цельнозерновой",
+    "brand": null,
+    "category": "bread",
+    "image_emoji": "🍞",
+    "weight_g": 400,
+    "price_rub": 95,
+    "store": "Пятёрочка",
+    "nutrients_per_100g": {
+      "calories_kcal": 229, "protein_g": 8.8, "fat_g": 2.8, "carbs_g": 41,
+      "sugar_g": 3.4, "fiber_g": 7.6, "sodium_g": 0.52,
+      "saturated_fat_g": 0.5, "trans_fat_g": 0
+    },
+    "nutriscore_grade": "A", "nova_class": 2,
+    "ingredients": ["мука цельнозерновая", "вода", "дрожжи", "соль"], "e_additives": [],
+    "convenience_tier": 1, "use_context": ["breakfast", "sandwich"],
+    "tier": "A", "universal_ref_id": null
+  },
+  {
+    "id": "u-bread-white",
+    "name": "Батон нарезной",
+    "brand": null,
+    "category": "bread",
+    "image_emoji": "🍞",
+    "weight_g": 400,
+    "price_rub": 55,
+    "store": "Пятёрочка",
+    "nutrients_per_100g": {
+      "calories_kcal": 262, "protein_g": 7.5, "fat_g": 2.9, "carbs_g": 50.9,
+      "sugar_g": 4.7, "fiber_g": 2.3, "sodium_g": 0.6,
+      "saturated_fat_g": 0.7, "trans_fat_g": 0
+    },
+    "nutriscore_grade": "C", "nova_class": 3,
+    "ingredients": ["мука в/с", "вода", "сахар", "дрожжи", "соль"], "e_additives": ["E471"],
+    "convenience_tier": 1, "use_context": ["breakfast", "sandwich"],
+    "tier": "A", "universal_ref_id": null
+  },
+  {
+    "id": "u-tuna-can",
+    "name": "Тунец в собственном соку",
+    "brand": null,
+    "category": "fish",
+    "image_emoji": "🐟",
+    "weight_g": 185,
+    "price_rub": 180,
+    "store": "Пятёрочка",
+    "nutrients_per_100g": {
+      "calories_kcal": 108, "protein_g": 25, "fat_g": 1, "carbs_g": 0,
+      "sugar_g": 0, "fiber_g": 0, "sodium_g": 0.4,
+      "saturated_fat_g": 0.3, "trans_fat_g": 0
+    },
+    "nutriscore_grade": "A", "nova_class": 2,
+    "ingredients": ["тунец", "вода", "соль"], "e_additives": [],
+    "convenience_tier": 1, "use_context": ["sandwich", "snack", "lunch"],
+    "tier": "A", "universal_ref_id": null
+  },
+  {
+    "id": "u-pollock",
+    "name": "Минтай филе",
+    "brand": null,
+    "category": "fish",
+    "image_emoji": "🐟",
+    "weight_g": 500,
+    "price_rub": 280,
+    "store": "ВкусВилл",
+    "nutrients_per_100g": {
+      "calories_kcal": 72, "protein_g": 15.9, "fat_g": 0.9, "carbs_g": 0,
+      "sugar_g": 0, "fiber_g": 0, "sodium_g": 0.1,
+      "saturated_fat_g": 0.2, "trans_fat_g": 0
+    },
+    "nutriscore_grade": "A", "nova_class": 1,
+    "ingredients": ["минтай филе"], "e_additives": [],
+    "convenience_tier": 3, "use_context": ["cooking", "dinner"],
+    "tier": "A", "universal_ref_id": null
+  },
+  {
+    "id": "u-cheese-hard",
+    "name": "Сыр Российский 45%",
+    "brand": null,
+    "category": "dairy",
+    "image_emoji": "🧀",
+    "weight_g": 200,
+    "price_rub": 240,
+    "store": "Пятёрочка",
+    "nutrients_per_100g": {
+      "calories_kcal": 363, "protein_g": 23, "fat_g": 30, "carbs_g": 0,
+      "sugar_g": 0, "fiber_g": 0, "sodium_g": 0.7,
+      "saturated_fat_g": 20, "trans_fat_g": 0.8
+    },
+    "nutriscore_grade": "D", "nova_class": 2,
+    "ingredients": ["молоко", "закваска", "соль", "ферменты"], "e_additives": [],
+    "convenience_tier": 1, "use_context": ["sandwich", "snack"],
+    "tier": "A", "universal_ref_id": null
+  },
+  {
+    "id": "u-apple",
+    "name": "Яблоки Голден 1кг",
+    "brand": null,
+    "category": "fruit",
+    "image_emoji": "🍎",
+    "weight_g": 1000,
+    "price_rub": 140,
+    "store": "Пятёрочка",
+    "nutrients_per_100g": {
+      "calories_kcal": 52, "protein_g": 0.4, "fat_g": 0.4, "carbs_g": 11.8,
+      "sugar_g": 10, "fiber_g": 2.4, "sodium_g": 0.001,
+      "saturated_fat_g": 0, "trans_fat_g": 0
+    },
+    "nutriscore_grade": "A", "nova_class": 1,
+    "ingredients": ["яблоки"], "e_additives": [],
+    "convenience_tier": 1, "use_context": ["snack", "breakfast"],
+    "tier": "A", "universal_ref_id": null
+  },
+  {
+    "id": "u-banana",
+    "name": "Бананы 1кг",
+    "brand": null,
+    "category": "fruit",
+    "image_emoji": "🍌",
+    "weight_g": 1000,
+    "price_rub": 95,
+    "store": "Пятёрочка",
+    "nutrients_per_100g": {
+      "calories_kcal": 89, "protein_g": 1.1, "fat_g": 0.3, "carbs_g": 23,
+      "sugar_g": 12, "fiber_g": 2.6, "sodium_g": 0.001,
+      "saturated_fat_g": 0, "trans_fat_g": 0
+    },
+    "nutriscore_grade": "B", "nova_class": 1,
+    "ingredients": ["бананы"], "e_additives": [],
+    "convenience_tier": 1, "use_context": ["snack", "breakfast"],
+    "tier": "A", "universal_ref_id": null
+  },
+  {
+    "id": "u-cucumber",
+    "name": "Огурцы 500г",
+    "brand": null,
+    "category": "veg",
+    "image_emoji": "🥒",
+    "weight_g": 500,
+    "price_rub": 120,
+    "store": "Пятёрочка",
+    "nutrients_per_100g": {
+      "calories_kcal": 15, "protein_g": 0.8, "fat_g": 0.1, "carbs_g": 2.8,
+      "sugar_g": 1.7, "fiber_g": 0.5, "sodium_g": 0.002,
+      "saturated_fat_g": 0, "trans_fat_g": 0
+    },
+    "nutriscore_grade": "A", "nova_class": 1,
+    "ingredients": ["огурцы"], "e_additives": [],
+    "convenience_tier": 1, "use_context": ["snack", "lunch", "dinner"],
+    "tier": "A", "universal_ref_id": null
+  },
+  {
+    "id": "u-tomato",
+    "name": "Томаты 500г",
+    "brand": null,
+    "category": "veg",
+    "image_emoji": "🍅",
+    "weight_g": 500,
+    "price_rub": 160,
+    "store": "Пятёрочка",
+    "nutrients_per_100g": {
+      "calories_kcal": 20, "protein_g": 0.9, "fat_g": 0.2, "carbs_g": 3.9,
+      "sugar_g": 2.6, "fiber_g": 1.2, "sodium_g": 0.005,
+      "saturated_fat_g": 0, "trans_fat_g": 0
+    },
+    "nutriscore_grade": "A", "nova_class": 1,
+    "ingredients": ["томаты"], "e_additives": [],
+    "convenience_tier": 1, "use_context": ["snack", "lunch", "dinner"],
+    "tier": "A", "universal_ref_id": null
+  },
+  {
+    "id": "u-broccoli",
+    "name": "Брокколи замороженная",
+    "brand": null,
+    "category": "veg",
+    "image_emoji": "🥦",
+    "weight_g": 400,
+    "price_rub": 170,
+    "store": "ВкусВилл",
+    "nutrients_per_100g": {
+      "calories_kcal": 34, "protein_g": 2.8, "fat_g": 0.4, "carbs_g": 6.6,
+      "sugar_g": 1.7, "fiber_g": 2.6, "sodium_g": 0.03,
+      "saturated_fat_g": 0.1, "trans_fat_g": 0
+    },
+    "nutriscore_grade": "A", "nova_class": 1,
+    "ingredients": ["брокколи"], "e_additives": [],
+    "convenience_tier": 2, "use_context": ["cooking", "lunch", "dinner"],
+    "tier": "A", "universal_ref_id": null
+  },
+  {
+    "id": "u-peanut-butter",
+    "name": "Арахисовая паста натуральная",
+    "brand": null,
+    "category": "spread",
+    "image_emoji": "🥜",
+    "weight_g": 300,
+    "price_rub": 260,
+    "store": "ВкусВилл",
+    "nutrients_per_100g": {
+      "calories_kcal": 598, "protein_g": 26, "fat_g": 49, "carbs_g": 13,
+      "sugar_g": 4, "fiber_g": 8, "sodium_g": 0.02,
+      "saturated_fat_g": 7, "trans_fat_g": 0
+    },
+    "nutriscore_grade": "B", "nova_class": 2,
+    "ingredients": ["арахис"], "e_additives": [],
+    "convenience_tier": 1, "use_context": ["breakfast", "snack"],
+    "tier": "A", "universal_ref_id": null
+  },
+  {
+    "id": "u-chocolate-milk",
+    "name": "Шоколадная паста",
+    "brand": null,
+    "category": "spread",
+    "image_emoji": "🍫",
+    "weight_g": 350,
+    "price_rub": 310,
+    "store": "Перекрёсток",
+    "nutrients_per_100g": {
+      "calories_kcal": 541, "protein_g": 6.3, "fat_g": 31, "carbs_g": 57,
+      "sugar_g": 56.3, "fiber_g": 3, "sodium_g": 0.1,
+      "saturated_fat_g": 10.6, "trans_fat_g": 0.1
+    },
+    "nutriscore_grade": "E", "nova_class": 4,
+    "ingredients": ["сахар", "масло пальмовое", "фундук", "какао", "молоко", "лецитин"],
+    "e_additives": ["E322", "E471"],
+    "convenience_tier": 1, "use_context": ["breakfast", "snack"],
+    "tier": "A", "universal_ref_id": null
+  },
+  {
+    "id": "u-milk-25",
+    "name": "Молоко 2.5%",
+    "brand": null,
+    "category": "dairy",
+    "image_emoji": "🥛",
+    "weight_g": 950,
+    "price_rub": 110,
+    "store": "Пятёрочка",
+    "nutrients_per_100g": {
+      "calories_kcal": 52, "protein_g": 2.9, "fat_g": 2.5, "carbs_g": 4.8,
+      "sugar_g": 4.8, "fiber_g": 0, "sodium_g": 0.05,
+      "saturated_fat_g": 1.5, "trans_fat_g": 0
+    },
+    "nutriscore_grade": "B", "nova_class": 1,
+    "ingredients": ["молоко"], "e_additives": [],
+    "convenience_tier": 2, "use_context": ["breakfast", "cooking"],
+    "tier": "A", "universal_ref_id": null
+  },
+  {
+    "id": "u-protein-bar-clean",
+    "name": "Протеиновый батончик",
+    "brand": null,
+    "category": "snack",
+    "image_emoji": "🍫",
+    "weight_g": 60,
+    "price_rub": 120,
+    "store": "ВкусВилл",
+    "nutrients_per_100g": {
+      "calories_kcal": 380, "protein_g": 30, "fat_g": 11, "carbs_g": 38,
+      "sugar_g": 10, "fiber_g": 5, "sodium_g": 0.25,
+      "saturated_fat_g": 4, "trans_fat_g": 0
+    },
+    "nutriscore_grade": "C", "nova_class": 3,
+    "ingredients": ["сывороточный белок", "орехи", "мед"], "e_additives": [],
+    "convenience_tier": 1, "use_context": ["snack"],
+    "tier": "A", "universal_ref_id": null
+  },
+  {
+    "id": "u-olive-oil",
+    "name": "Оливковое масло",
+    "brand": null,
+    "category": "oil",
+    "image_emoji": "🫒",
+    "weight_g": 500,
+    "price_rub": 650,
+    "store": "Перекрёсток",
+    "nutrients_per_100g": {
+      "calories_kcal": 884, "protein_g": 0, "fat_g": 100, "carbs_g": 0,
+      "sugar_g": 0, "fiber_g": 0, "sodium_g": 0.002,
+      "saturated_fat_g": 14, "trans_fat_g": 0
+    },
+    "nutriscore_grade": "C", "nova_class": 2,
+    "ingredients": ["оливковое масло"], "e_additives": [],
+    "convenience_tier": 3, "use_context": ["cooking"],
+    "tier": "A", "universal_ref_id": null
+  },
+  {
+    "id": "u-beef-mince",
+    "name": "Говяжий фарш",
+    "brand": null,
+    "category": "meat",
+    "image_emoji": "🥩",
+    "weight_g": 500,
+    "price_rub": 420,
+    "store": "Перекрёсток",
+    "nutrients_per_100g": {
+      "calories_kcal": 250, "protein_g": 17, "fat_g": 20, "carbs_g": 0,
+      "sugar_g": 0, "fiber_g": 0, "sodium_g": 0.08,
+      "saturated_fat_g": 8, "trans_fat_g": 0.3
+    },
+    "nutriscore_grade": "C", "nova_class": 1,
+    "ingredients": ["говядина"], "e_additives": [],
+    "convenience_tier": 3, "use_context": ["cooking", "dinner"],
+    "tier": "A", "universal_ref_id": null
+  }
+]

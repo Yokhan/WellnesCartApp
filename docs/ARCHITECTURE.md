@@ -1,4 +1,4 @@
-# SmartCart PVM — Architecture
+# BUFF EAT — Architecture
 
 **Дата:** Март 2026
 

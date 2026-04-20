@@ -1,4 +1,4 @@
-# SmartCart PVM — Architecture Decision Records
+# BUFF EAT — Architecture Decision Records
 
 ---
 
