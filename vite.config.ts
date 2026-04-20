@@ -3,6 +3,7 @@ import preact from '@preact/preset-vite';
 import path from 'node:path';
 
 export default defineConfig({
+  base: process.env.GITHUB_PAGES === 'true' ? '/WellnesCartApp/' : '/',
   plugins: [preact()],
   resolve: {
     alias: {
