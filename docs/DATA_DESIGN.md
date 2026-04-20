@@ -1,4 +1,4 @@
-# SmartCart PVM — Data Design
+# BUFF EAT — Data Design
 
 **БД:** PostgreSQL 16
 **Дата:** Март 2026

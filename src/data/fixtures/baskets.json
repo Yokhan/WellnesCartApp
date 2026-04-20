@@ -1,0 +1,109 @@
+[
+  {
+    "id": "bulk",
+    "name": "Качок на наборе",
+    "description": "Максимум белка, бюджет умеренный. Цель: набор мышечной массы.",
+    "goal": "bulk",
+    "budget_tier": "med",
+    "weekly_budget_rub": 4500,
+    "daily_protein_g": 185,
+    "daily_calories_kcal": 3100,
+    "items": [
+      { "universal_product_id": "u-chicken-breast-raw", "name": "Куриное филе сырое", "image_emoji": "🍗", "weight_g": 2000, "est_price_rub": 740, "category": "meat" },
+      { "universal_product_id": "u-beef-mince", "name": "Говяжий фарш", "image_emoji": "🥩", "weight_g": 1000, "est_price_rub": 840, "category": "meat" },
+      { "universal_product_id": "u-eggs-10", "name": "Яйца С0 10шт", "image_emoji": "🥚", "weight_g": 2100, "est_price_rub": 495, "category": "eggs" },
+      { "universal_product_id": "u-cottage-5", "name": "Творог 5%", "image_emoji": "🥛", "weight_g": 1500, "est_price_rub": 690, "category": "dairy" },
+      { "universal_product_id": "u-oats", "name": "Геркулес 500г", "image_emoji": "🌾", "weight_g": 1000, "est_price_rub": 190, "category": "grains" },
+      { "universal_product_id": "u-rice-brown", "name": "Рис бурый 800г", "image_emoji": "🍚", "weight_g": 1600, "est_price_rub": 360, "category": "grains" },
+      { "universal_product_id": "u-banana", "name": "Бананы 1кг", "image_emoji": "🍌", "weight_g": 2000, "est_price_rub": 190, "category": "fruit" },
+      { "universal_product_id": "u-peanut-butter", "name": "Арахисовая паста", "image_emoji": "🥜", "weight_g": 300, "est_price_rub": 260, "category": "spread" },
+      { "universal_product_id": "u-milk-25", "name": "Молоко 2.5%", "image_emoji": "🥛", "weight_g": 2850, "est_price_rub": 330, "category": "dairy" },
+      { "universal_product_id": "u-bread-whole", "name": "Хлеб цельнозерновой", "image_emoji": "🍞", "weight_g": 800, "est_price_rub": 190, "category": "bread" }
+    ]
+  },
+  {
+    "id": "cut",
+    "name": "Сушка бюджетная",
+    "description": "Максимум белка при минимуме калорий и ₽. Цель: снижение жира.",
+    "goal": "cut",
+    "budget_tier": "low",
+    "weekly_budget_rub": 2800,
+    "daily_protein_g": 140,
+    "daily_calories_kcal": 1900,
+    "items": [
+      { "universal_product_id": "u-chicken-breast-raw", "name": "Куриное филе сырое", "image_emoji": "🍗", "weight_g": 2000, "est_price_rub": 740, "category": "meat" },
+      { "universal_product_id": "u-pollock", "name": "Минтай филе", "image_emoji": "🐟", "weight_g": 1000, "est_price_rub": 560, "category": "fish" },
+      { "universal_product_id": "u-eggs-10", "name": "Яйца С0 10шт", "image_emoji": "🥚", "weight_g": 1400, "est_price_rub": 330, "category": "eggs" },
+      { "universal_product_id": "u-cottage-5", "name": "Творог 5%", "image_emoji": "🥛", "weight_g": 1000, "est_price_rub": 460, "category": "dairy" },
+      { "universal_product_id": "u-buckwheat", "name": "Гречка 900г", "image_emoji": "🌾", "weight_g": 900, "est_price_rub": 140, "category": "grains" },
+      { "universal_product_id": "u-broccoli", "name": "Брокколи замороженная", "image_emoji": "🥦", "weight_g": 800, "est_price_rub": 340, "category": "veg" },
+      { "universal_product_id": "u-cucumber", "name": "Огурцы 500г", "image_emoji": "🥒", "weight_g": 1000, "est_price_rub": 240, "category": "veg" }
+    ]
+  },
+  {
+    "id": "maintain",
+    "name": "Здоровое питание офисника",
+    "description": "Сбалансированная корзина с готовыми решениями для офиса.",
+    "goal": "maintain",
+    "budget_tier": "med",
+    "weekly_budget_rub": 3800,
+    "daily_protein_g": 115,
+    "daily_calories_kcal": 2200,
+    "items": [
+      { "universal_product_id": "u-chicken-breast-cooked", "name": "Куриное варёное в нарезке", "image_emoji": "🍗", "weight_g": 600, "est_price_rub": 480, "category": "meat-ready" },
+      { "universal_product_id": "u-turkey-sliced", "name": "Индейка нарезка", "image_emoji": "🦃", "weight_g": 300, "est_price_rub": 390, "category": "meat-ready" },
+      { "universal_product_id": "u-tuna-can", "name": "Тунец в собственном соку", "image_emoji": "🐟", "weight_g": 370, "est_price_rub": 360, "category": "fish" },
+      { "universal_product_id": "u-eggs-10", "name": "Яйца С0 10шт", "image_emoji": "🥚", "weight_g": 1400, "est_price_rub": 330, "category": "eggs" },
+      { "universal_product_id": "u-yogurt-nat", "name": "Йогурт натуральный 2%", "image_emoji": "🥣", "weight_g": 1000, "est_price_rub": 300, "category": "dairy" },
+      { "universal_product_id": "u-oats", "name": "Геркулес 500г", "image_emoji": "🌾", "weight_g": 500, "est_price_rub": 95, "category": "grains" },
+      { "universal_product_id": "u-bread-whole", "name": "Хлеб цельнозерновой", "image_emoji": "🍞", "weight_g": 400, "est_price_rub": 95, "category": "bread" },
+      { "universal_product_id": "u-apple", "name": "Яблоки Голден 1кг", "image_emoji": "🍎", "weight_g": 1000, "est_price_rub": 140, "category": "fruit" },
+      { "universal_product_id": "u-banana", "name": "Бананы 1кг", "image_emoji": "🍌", "weight_g": 1000, "est_price_rub": 95, "category": "fruit" },
+      { "universal_product_id": "u-cucumber", "name": "Огурцы 500г", "image_emoji": "🥒", "weight_g": 500, "est_price_rub": 120, "category": "veg" },
+      { "universal_product_id": "u-tomato", "name": "Томаты 500г", "image_emoji": "🍅", "weight_g": 500, "est_price_rub": 160, "category": "veg" }
+    ]
+  },
+  {
+    "id": "premium",
+    "name": "Премиум ЗОЖ",
+    "description": "Без компромиссов по качеству. NutriScore A преимущественно.",
+    "goal": "health",
+    "budget_tier": "high",
+    "weekly_budget_rub": 8500,
+    "daily_protein_g": 135,
+    "daily_calories_kcal": 2400,
+    "items": [
+      { "universal_product_id": "u-pollock", "name": "Минтай филе", "image_emoji": "🐟", "weight_g": 1000, "est_price_rub": 560, "category": "fish" },
+      { "universal_product_id": "u-chicken-breast-raw", "name": "Куриное филе сырое", "image_emoji": "🍗", "weight_g": 1500, "est_price_rub": 555, "category": "meat" },
+      { "universal_product_id": "u-eggs-10", "name": "Яйца С0 10шт", "image_emoji": "🥚", "weight_g": 1400, "est_price_rub": 330, "category": "eggs" },
+      { "universal_product_id": "u-cottage-5", "name": "Творог 5%", "image_emoji": "🥛", "weight_g": 1500, "est_price_rub": 690, "category": "dairy" },
+      { "universal_product_id": "u-yogurt-nat", "name": "Йогурт натуральный 2%", "image_emoji": "🥣", "weight_g": 1500, "est_price_rub": 450, "category": "dairy" },
+      { "universal_product_id": "u-buckwheat", "name": "Гречка 900г", "image_emoji": "🌾", "weight_g": 900, "est_price_rub": 140, "category": "grains" },
+      { "universal_product_id": "u-rice-brown", "name": "Рис бурый 800г", "image_emoji": "🍚", "weight_g": 800, "est_price_rub": 180, "category": "grains" },
+      { "universal_product_id": "u-broccoli", "name": "Брокколи замороженная", "image_emoji": "🥦", "weight_g": 1200, "est_price_rub": 510, "category": "veg" },
+      { "universal_product_id": "u-apple", "name": "Яблоки Голден 1кг", "image_emoji": "🍎", "weight_g": 2000, "est_price_rub": 280, "category": "fruit" },
+      { "universal_product_id": "u-olive-oil", "name": "Оливковое масло", "image_emoji": "🫒", "weight_g": 500, "est_price_rub": 650, "category": "oil" },
+      { "universal_product_id": "u-peanut-butter", "name": "Арахисовая паста", "image_emoji": "🥜", "weight_g": 300, "est_price_rub": 260, "category": "spread" }
+    ]
+  },
+  {
+    "id": "student",
+    "name": "Студент-спортсмен",
+    "description": "Минимум бюджета, максимум белка на ₽.",
+    "goal": "bulk",
+    "budget_tier": "low",
+    "weekly_budget_rub": 2000,
+    "daily_protein_g": 120,
+    "daily_calories_kcal": 2500,
+    "items": [
+      { "universal_product_id": "u-chicken-breast-raw", "name": "Куриное филе сырое", "image_emoji": "🍗", "weight_g": 1000, "est_price_rub": 370, "category": "meat" },
+      { "universal_product_id": "u-eggs-10", "name": "Яйца С0 10шт", "image_emoji": "🥚", "weight_g": 2100, "est_price_rub": 495, "category": "eggs" },
+      { "universal_product_id": "u-cottage-5", "name": "Творог 5%", "image_emoji": "🥛", "weight_g": 500, "est_price_rub": 230, "category": "dairy" },
+      { "universal_product_id": "u-buckwheat", "name": "Гречка 900г", "image_emoji": "🌾", "weight_g": 900, "est_price_rub": 140, "category": "grains" },
+      { "universal_product_id": "u-oats", "name": "Геркулес 500г", "image_emoji": "🌾", "weight_g": 500, "est_price_rub": 95, "category": "grains" },
+      { "universal_product_id": "u-milk-25", "name": "Молоко 2.5%", "image_emoji": "🥛", "weight_g": 1900, "est_price_rub": 220, "category": "dairy" },
+      { "universal_product_id": "u-banana", "name": "Бананы 1кг", "image_emoji": "🍌", "weight_g": 1000, "est_price_rub": 95, "category": "fruit" },
+      { "universal_product_id": "u-bread-whole", "name": "Хлеб цельнозерновой", "image_emoji": "🍞", "weight_g": 400, "est_price_rub": 95, "category": "bread" }
+    ]
+  }
+]

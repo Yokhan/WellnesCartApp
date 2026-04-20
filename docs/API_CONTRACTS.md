@@ -1,4 +1,4 @@
-# SmartCart PVM — API Contracts
+# BUFF EAT — API Contracts
 
 **Статус:** Placeholder — будет заполнен при реализации backend
 

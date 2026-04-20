@@ -1,6 +1,6 @@
 #!/bin/bash
 # scripts/check-drift.sh — запускать перед крупными сессиями
-echo "=== SmartCart PVM: Drift Detection ==="
+echo "=== BUFF EAT: Drift Detection ==="
 
 # 1. Проверить, что docs/ обновлены
 for doc in docs/*.md; do

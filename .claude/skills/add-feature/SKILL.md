@@ -1,5 +1,5 @@
 ---
-description: "Добавление новой фичи в SmartCart PVM"
+description: "Добавление новой фичи в BUFF EAT"
 ---
 
 # Добавление новой фичи
