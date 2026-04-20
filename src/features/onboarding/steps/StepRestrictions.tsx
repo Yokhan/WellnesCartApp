@@ -1,5 +1,6 @@
 import type { JSX } from 'preact';
-import { Card, Chip, Disclaimer } from '../../../shared/ui';
+import { Col, Card, H2, P, Label, Chip, Disclaimer } from '../../../shared/ui';
+import { space } from '../../../shared/ui/tokens';
 import { onboardingDraftSignal } from '../../../shared/state';
 import { toggleAllergen } from '../onboarding.service';
 
@@ -8,15 +9,22 @@ const ALLERGENS = ['Молочное', 'Глютен', 'Орехи', 'Яйца',
 export function StepRestrictions(): JSX.Element {
   const selected = onboardingDraftSignal.value.allergens;
   return (
-    <div className="space-y-6">
+    <Col gap={space.gap.wide}>
       <div>
-        <h1 className="text-2xl font-bold">Ограничения</h1>
-        <p className="text-text-muted text-sm mt-1">Аллергены или продукты, которых не ешь. Можно пропустить.</p>
+        <H2>Ограничения</H2>
+        <P style={{ marginTop: 6 }}>
+          Аллергены или продукты, которых не ешь. Можно пропустить.
+        </P>
       </div>
 
       <Card>
-        <div className="text-sm text-text-muted mb-2">Аллергены / не ем</div>
-        <div className="flex flex-wrap gap-2">
+        <Label style={{ marginBottom: space.gap.tight }}>Аллергены / не ем</Label>
+        <div style={{
+          display: 'flex',
+          flexWrap: 'wrap',
+          gap: space.gap.tight,
+          marginTop: space.gap.tight,
+        }}>
           {ALLERGENS.map((a) => (
             <Chip
               key={a}
@@ -33,6 +41,6 @@ export function StepRestrictions(): JSX.Element {
       <Disclaimer tone="info">
         Любимые продукты не запрещаем. На экране профиля добавишь «sacred items» — они останутся в списке и не предлагаются к замене.
       </Disclaimer>
-    </div>
+    </Col>
   );
 }

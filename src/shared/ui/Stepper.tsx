@@ -1,4 +1,5 @@
 import type { JSX } from 'preact';
+import { C } from './tokens';
 
 interface StepperProps {
   current: number;
@@ -7,16 +8,19 @@ interface StepperProps {
 
 export function Stepper({ current, total }: StepperProps): JSX.Element {
   return (
-    <div className="flex items-center gap-2 py-4">
+    <div style={{ display: 'flex', alignItems: 'center', gap: 6, padding: '16px 0' }}>
       {Array.from({ length: total }, (_, i) => {
         const active = i < current;
-        const isCurrent = i === current - 1;
         return (
           <div
             key={i}
-            className={`h-1.5 flex-1 rounded-full transition-colors ${
-              active ? 'bg-accent' : isCurrent ? 'bg-accent/60' : 'bg-border'
-            }`}
+            style={{
+              flex: 1,
+              height: 3,
+              borderRadius: 2,
+              background: active ? C.accent : C.bdr,
+              transition: 'background .3s',
+            }}
           />
         );
       })}

@@ -61,14 +61,24 @@ export function getProductSwaps(productId: string, profile: UserProfile): Promis
   return delay(ranked);
 }
 
-function itemFromProduct(p: Product, isSacred = false): ShoppingListItem {
+const CONVENIENCE_LABELS: Record<number, string> = {
+  1: 'Готовое',
+  2: 'Быстрое (5 мин)',
+  3: 'Для готовки',
+};
+
+function itemFromProduct(p: Product, profile: UserProfile): ShoppingListItem {
+  const gate = evalGate(p);
+  const value = computeValueScore(p, profile);
   return {
     id: `li-${p.id}`,
     product_id: p.id,
     product: p,
     quantity: 1,
     checked: false,
-    is_sacred: isSacred,
+    is_sacred: profile.sacred_items.includes(p.id),
+    gate,
+    value,
   };
 }
 
@@ -77,14 +87,30 @@ function buildListFromBasket(basket: BasketTemplate, profile: UserProfile): Shop
   for (const bi of basket.items) {
     const p = findProduct(bi.universal_product_id);
     if (!p) continue;
-    items.push(itemFromProduct(p, profile.sacred_items.includes(p.id)));
+    items.push(itemFromProduct(p, profile));
   }
   const total = items.reduce((sum, it) => sum + it.product.price_rub * it.quantity, 0);
 
   const swaps_of_week: SwapSuggestion[] = items.slice(0, 8).flatMap((it) => {
     const alt = rankSwaps(PRODUCTS, it.product, profile, 1)[0];
     if (!alt) return [];
-    if (alt.value.composite_score - computeValueScore(it.product, profile).composite_score < 0.05) return [];
+    const fromScore = computeValueScore(it.product, profile).composite_score;
+    const toScore = alt.value.composite_score;
+    if (toScore - fromScore < 0.05) return [];
+    const reasons: string[] = [];
+    if (alt.nutriscore_grade < it.product.nutriscore_grade) {
+      reasons.push(`NutriScore ${alt.nutriscore_grade} vs ${it.product.nutriscore_grade}`);
+    }
+    if (alt.price_rub < it.product.price_rub) {
+      reasons.push(`−${Math.round(it.product.price_rub - alt.price_rub)} ₽`);
+    }
+    if (alt.nova_class < it.product.nova_class) {
+      reasons.push(`NOVA ${alt.nova_class} vs ${it.product.nova_class}`);
+    }
+    if (alt.nutrients_per_100g.protein_g > it.product.nutrients_per_100g.protein_g) {
+      reasons.push('Больше белка');
+    }
+    if (reasons.length === 0) reasons.push('Лучше общая оценка');
     return [{
       from_product_id: it.product.id,
       to_product_id: alt.id,
@@ -92,9 +118,12 @@ function buildListFromBasket(basket: BasketTemplate, profile: UserProfile): Shop
       to_name: alt.name,
       protein_delta_g: Number((alt.nutrients_per_100g.protein_g - it.product.nutrients_per_100g.protein_g).toFixed(1)),
       price_delta_rub: Number((alt.price_rub - it.product.price_rub).toFixed(0)),
-      reason: alt.nutriscore_grade < it.product.nutriscore_grade
-        ? `Лучше NutriScore (${alt.nutriscore_grade} vs ${it.product.nutriscore_grade})`
-        : 'Выгоднее по ₽/г белка',
+      reason: reasons[0] ?? 'Лучше общая оценка',
+      reasons,
+      score_delta: Number((toScore - fromScore).toFixed(2)),
+      from_score: Number(fromScore.toFixed(2)),
+      to_score: Number(toScore.toFixed(2)),
+      convenience_label: CONVENIENCE_LABELS[it.product.convenience_tier] ?? '',
     }];
   }).slice(0, 5);
 

@@ -1,5 +1,6 @@
 import type { JSX } from 'preact';
-import { Chip } from '../../../shared/ui';
+import { Col, H2, P, Pill } from '../../../shared/ui';
+import { space } from '../../../shared/ui/tokens';
 import { onboardingDraftSignal } from '../../../shared/state';
 import { togglePainPoint } from '../onboarding.service';
 
@@ -16,18 +17,20 @@ const POINTS = [
 export function StepPain(): JSX.Element {
   const selected = onboardingDraftSignal.value.pain_points;
   return (
-    <div className="space-y-6">
+    <Col gap={space.gap.wide}>
       <div>
-        <h1 className="text-2xl font-bold">Что мешает есть правильно?</h1>
-        <p className="text-text-muted text-sm mt-1">Выбери одно или несколько — подстроим список под твою боль.</p>
+        <H2>Что мешает есть правильно?</H2>
+        <P style={{ marginTop: 6 }}>
+          Выбери одно или несколько — подстроим список под твою боль.
+        </P>
       </div>
-      <div className="flex flex-wrap gap-2">
+      <div style={{ display: 'flex', flexWrap: 'wrap', gap: space.gap.tight }}>
         {POINTS.map((p) => (
-          <Chip key={p} selected={selected.includes(p)} onClick={() => togglePainPoint(p)}>
+          <Pill key={p} active={selected.includes(p)} onClick={() => togglePainPoint(p)}>
             {p}
-          </Chip>
+          </Pill>
         ))}
       </div>
-    </div>
+    </Col>
   );
 }

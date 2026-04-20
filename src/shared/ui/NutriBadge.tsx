@@ -1,30 +1,46 @@
 import type { JSX } from 'preact';
 import type { NutriGrade } from '../types';
+import { space } from './tokens';
 
 interface NutriBadgeProps {
   grade: NutriGrade;
   size?: 'sm' | 'md' | 'lg';
 }
 
-const GRADE_COLORS: Record<NutriGrade, string> = {
-  A: 'bg-[#038141] text-white',
-  B: 'bg-[#85BB2F] text-black',
-  C: 'bg-[#FECB02] text-black',
-  D: 'bg-[#EE8100] text-white',
-  E: 'bg-[#E63E11] text-white',
+const GRADE_STYLE: Record<NutriGrade, { bg: string; color: string }> = {
+  A: { bg: 'rgba(74,124,89,0.12)', color: '#3B6B4A' },
+  B: { bg: 'rgba(107,150,56,0.12)', color: '#5A7F2F' },
+  C: { bg: 'rgba(139,117,53,0.12)', color: '#8B7535' },
+  D: { bg: 'rgba(180,100,40,0.12)', color: '#A05020' },
+  E: { bg: 'rgba(160,64,48,0.12)', color: '#A04030' },
 };
 
-const SIZES: Record<NonNullable<NutriBadgeProps['size']>, string> = {
-  sm: 'w-6 h-6 text-xs',
-  md: 'w-8 h-8 text-sm',
-  lg: 'w-12 h-12 text-xl',
+type Size = 'sm' | 'md' | 'lg';
+const SIZES: Record<Size, { w: number; fs: number }> = {
+  sm: { w: 24, fs: 11 },
+  md: { w: 30, fs: 13 },
+  lg: { w: 40, fs: 18 },
 };
 
 export function NutriBadge({ grade, size = 'md' }: NutriBadgeProps): JSX.Element {
+  const s = SIZES[size];
+  const g = GRADE_STYLE[grade];
   return (
     <span
-      className={`inline-flex items-center justify-center rounded-full font-bold ${GRADE_COLORS[grade]} ${SIZES[size]}`}
       title={`NutriScore ${grade}`}
+      style={{
+        display: 'inline-flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        width: s.w,
+        height: s.w,
+        borderRadius: space.radius.md,
+        background: g.bg,
+        color: g.color,
+        fontSize: s.fs,
+        fontWeight: 700,
+        border: `1px solid ${g.color}26`,
+      }}
     >
       {grade}
     </span>

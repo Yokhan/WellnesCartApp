@@ -2,6 +2,7 @@ import type { JSX } from 'preact';
 import { useEffect, useState } from 'preact/hooks';
 import type { Product, UserProfile } from '../../shared/types';
 import { Card, Chip } from '../../shared/ui';
+import { C, ff, space } from '../../shared/ui/tokens';
 import { userProfileSignal, persistProfile } from '../../shared/state';
 import { api } from '../../data';
 
@@ -32,13 +33,15 @@ export function SacredItemsEditor({ profile }: Props): JSX.Element {
 
   return (
     <Card>
-      <h3 className="text-sm text-text-muted mb-2">Не трогать (sacred items)</h3>
-      <p className="text-xs text-text-muted mb-3">
+      <div style={{ fontSize: 13, color: C.muted, marginBottom: 8, fontFamily: ff.sans }}>
+        Любимое 🔒
+      </div>
+      <p style={{ fontSize: 12, color: C.muted, marginBottom: 12, lineHeight: 1.5 }}>
         Любимые продукты, которые никогда не предлагаем заменить. Никаких запретов — только твой контроль.
       </p>
 
       {profile.sacred_items.length > 0 && (
-        <div className="flex flex-wrap gap-1 mb-3">
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, marginBottom: 12 }}>
           {profile.sacred_items.map((id) => {
             const p = products.find((x) => x.id === id);
             if (!p) return null;
@@ -55,23 +58,47 @@ export function SacredItemsEditor({ profile }: Props): JSX.Element {
         type="text"
         value={q}
         onInput={(e) => setQ((e.currentTarget as HTMLInputElement).value)}
-        placeholder="Поиск по каталогу…"
-        className="w-full bg-surface-alt border border-border rounded-md px-3 py-2 text-sm mb-2"
+        placeholder="Поиск по каталогу..."
+        style={{
+          width: '100%',
+          background: C.bg,
+          border: `1px solid ${C.bdr}`,
+          borderRadius: space.radius.md,
+          padding: '10px 14px',
+          fontSize: 14,
+          color: C.text,
+          fontFamily: ff.sans,
+          marginBottom: 8,
+          outline: 'none',
+          boxSizing: 'border-box',
+        }}
       />
-      <div className="max-h-48 overflow-y-auto space-y-1">
+
+      <div style={{ maxHeight: 192, overflowY: 'auto' }}>
         {filtered.map((p) => {
           const added = profile.sacred_items.includes(p.id);
           return (
             <button
               key={p.id}
               onClick={() => toggle(p.id)}
-              className={`w-full text-left px-3 py-2 rounded-md text-sm transition-colors ${
-                added ? 'bg-warning/10 text-warning' : 'hover:bg-surface-alt'
-              }`}
+              style={{
+                width: '100%',
+                textAlign: 'left',
+                padding: '10px 14px',
+                borderRadius: space.radius.md,
+                fontSize: 14,
+                fontFamily: ff.sans,
+                background: added ? C.amberBg : 'transparent',
+                color: added ? C.amber : C.text,
+                border: 'none',
+                cursor: 'pointer',
+                display: 'block',
+                transition: 'background .15s',
+              }}
             >
-              <span className="mr-2">{p.image_emoji}</span>
+              <span style={{ marginRight: 8 }}>{p.image_emoji}</span>
               {p.name}
-              {added && <span className="ml-2 text-xs">(в списке)</span>}
+              {added && <span style={{ marginLeft: 8, fontSize: 12, color: C.muted }}>(в списке)</span>}
             </button>
           );
         })}
