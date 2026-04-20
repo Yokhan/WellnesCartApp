@@ -2,6 +2,7 @@ import type { JSX } from 'preact';
 import { useState } from 'preact/hooks';
 import { useLocation } from 'wouter-preact';
 import { Button, Stepper } from '../../shared/ui';
+import { C, ff, space } from '../../shared/ui/tokens';
 import {
   userProfileSignal, activeListSignal, onboardingDraftSignal,
   persistProfile, persistList, emptyDraft,
@@ -53,15 +54,49 @@ export function OnboardingShell({ step }: Props): JSX.Element {
   };
 
   return (
-    <div className="min-h-screen bg-bg flex flex-col">
-      <div className="max-w-xl w-full mx-auto px-5 pt-6 flex-1 flex flex-col">
-        <div className="flex items-center justify-between mb-2">
-          <span className="text-xs text-text-muted">Шаг {idx + 1} из {STEPS.length}</span>
-          <span className="text-accent font-bold text-sm tracking-widest">BUFF EAT</span>
+    <div style={{
+      minHeight: '100vh',
+      background: C.bg,
+      display: 'flex',
+      flexDirection: 'column',
+    }}>
+      <div style={{
+        maxWidth: space.maxWidth,
+        width: '100%',
+        margin: '0 auto',
+        padding: space.pagePad,
+        paddingTop: 24,
+        flex: 1,
+        display: 'flex',
+        flexDirection: 'column',
+      }}>
+        <div style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          marginBottom: 8,
+        }}>
+          <span style={{
+            fontSize: 12,
+            color: C.muted,
+            fontFamily: ff.sans,
+          }}>
+            Шаг {idx + 1} из {STEPS.length}
+          </span>
+          <span style={{
+            color: C.accent,
+            fontFamily: ff.serif,
+            fontWeight: 700,
+            fontSize: 14,
+            letterSpacing: 2,
+          }}>
+            BUFF EAT
+          </span>
         </div>
+
         <Stepper current={idx + 1} total={STEPS.length} />
 
-        <div className="flex-1 pt-4 pb-6">
+        <div style={{ flex: 1, paddingTop: space.gap.normal, paddingBottom: space.gap.wide }}>
           {step === 'pain' && <StepPain />}
           {step === 'habits' && <StepHabits />}
           {step === 'context' && <StepContext />}
@@ -69,11 +104,15 @@ export function OnboardingShell({ step }: Props): JSX.Element {
           {step === 'review' && <StepReview />}
         </div>
 
-        <div className="flex gap-2 py-4">
+        <div style={{
+          display: 'flex',
+          gap: space.gap.tight,
+          padding: `${space.gap.normal}px 0`,
+        }}>
           {idx > 0 && (
             <Button variant="ghost" onClick={goBack} disabled={submitting}>Назад</Button>
           )}
-          <div className="flex-1" />
+          <div style={{ flex: 1 }} />
           <Button
             onClick={goNext}
             disabled={!canAdvance(step, draft) || submitting}

@@ -1,5 +1,6 @@
 import type { JSX } from 'preact';
-import { Card, Chip } from '../../../shared/ui';
+import { Col, Card, H2, P, Label, Pill } from '../../../shared/ui';
+import { C, ff, space } from '../../../shared/ui/tokens';
 import { onboardingDraftSignal } from '../../../shared/state';
 import { setHabit } from '../onboarding.service';
 
@@ -22,27 +23,34 @@ const SLOTS: Slot[] = [
 export function StepHabits(): JSX.Element {
   const habits = onboardingDraftSignal.value.habits;
   return (
-    <div className="space-y-6">
+    <Col gap={space.gap.wide}>
       <div>
-        <h1 className="text-2xl font-bold">Что ты обычно ешь?</h1>
-        <p className="text-text-muted text-sm mt-1">Без оценки. Мы не отбираем любимое — наращиваем белок вокруг.</p>
+        <H2>Что ты обычно ешь?</H2>
+        <P style={{ marginTop: 6 }}>
+          Без оценки. Мы не отбираем любимое — наращиваем белок вокруг.
+        </P>
       </div>
       {SLOTS.map((slot) => (
         <Card key={slot.key}>
-          <div className="text-sm text-text-muted mb-2">{slot.title}</div>
-          <div className="flex flex-wrap gap-2">
+          <Label style={{ marginBottom: space.gap.tight }}>{slot.title}</Label>
+          <div style={{
+            display: 'flex',
+            flexWrap: 'wrap',
+            gap: space.gap.tight,
+            marginTop: space.gap.tight,
+          }}>
             {slot.options.map((o) => (
-              <Chip
+              <Pill
                 key={o}
-                selected={habits[slot.key] === o}
+                active={habits[slot.key] === o}
                 onClick={() => setHabit(slot.key, o)}
               >
                 {o}
-              </Chip>
+              </Pill>
             ))}
           </div>
         </Card>
       ))}
-    </div>
+    </Col>
   );
 }

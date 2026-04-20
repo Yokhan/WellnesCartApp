@@ -1,5 +1,6 @@
 import type { ComponentChildren, JSX } from 'preact';
 import { useRef, useState } from 'preact/hooks';
+import { C, space } from './tokens';
 
 interface SwipeRowProps {
   children: ComponentChildren;
@@ -26,8 +27,7 @@ export function SwipeRow(props: SwipeRowProps): JSX.Element {
   const onMove = (e: PointerEvent) => {
     if (!dragging.current || startX.current === null) return;
     const delta = e.clientX - startX.current;
-    const clamped = Math.max(-120, Math.min(120, delta));
-    setDx(clamped);
+    setDx(Math.max(-120, Math.min(120, delta)));
   };
   const onEnd = () => {
     if (dx > threshold && props.onSwipeRight) props.onSwipeRight();
@@ -37,21 +37,26 @@ export function SwipeRow(props: SwipeRowProps): JSX.Element {
     startX.current = null;
   };
 
-  const bgCls = dx < 0 ? 'bg-danger/20' : dx > 0 ? 'bg-success/20' : 'bg-surface-alt';
+  const bgColor = dx < 0 ? 'rgba(160,64,48,0.08)' : dx > 0 ? 'rgba(74,124,89,0.08)' : C.card;
 
   return (
-    <div className={`relative overflow-hidden rounded-md ${bgCls}`}>
-      <div className="absolute inset-0 flex items-center justify-between px-4 pointer-events-none">
-        <span className="text-success text-sm opacity-80">{props.rightAction}</span>
-        <span className="text-danger text-sm opacity-80">{props.leftAction}</span>
+    <div style={{ position: 'relative', overflow: 'hidden', borderRadius: space.radius.xl, background: bgColor }}>
+      <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0 16px', pointerEvents: 'none' }}>
+        <span style={{ color: C.green, fontSize: 13, opacity: 0.8 }}>{props.rightAction}</span>
+        <span style={{ color: C.accent, fontSize: 13, opacity: 0.8 }}>{props.leftAction}</span>
       </div>
       <div
         onPointerDown={onStart}
         onPointerMove={onMove}
         onPointerUp={onEnd}
         onPointerCancel={onEnd}
-        style={{ transform: `translateX(${dx}px)`, touchAction: 'pan-y' }}
-        className="relative transition-transform bg-surface"
+        style={{
+          position: 'relative',
+          transform: `translateX(${dx}px)`,
+          touchAction: 'pan-y',
+          background: C.card,
+          transition: dragging.current ? 'none' : 'transform .2s',
+        }}
       >
         {props.children}
       </div>

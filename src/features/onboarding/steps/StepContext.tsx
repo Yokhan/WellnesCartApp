@@ -1,5 +1,6 @@
 import type { JSX } from 'preact';
-import { Card, Chip } from '../../../shared/ui';
+import { Col, Card, H2, P, Label, Pill, Chip } from '../../../shared/ui';
+import { C, ff, space } from '../../../shared/ui/tokens';
 import { formatRub } from '../../../shared/format';
 import type { Goal } from '../../../shared/types';
 import { onboardingDraftSignal } from '../../../shared/state';
@@ -17,36 +18,73 @@ const STORES = ['Пятёрочка', 'Перекрёсток', 'ВкусВил�
 export function StepContext(): JSX.Element {
   const draft = onboardingDraftSignal.value;
   return (
-    <div className="space-y-6">
+    <Col gap={space.gap.wide}>
       <div>
-        <h1 className="text-2xl font-bold">Цель и условия</h1>
-        <p className="text-text-muted text-sm mt-1">Под это соберём корзину.</p>
+        <H2>Цель и условия</H2>
+        <P style={{ marginTop: 6 }}>Под это соберём корзину.</P>
       </div>
 
       <Card>
-        <div className="text-sm text-text-muted mb-2">Цель</div>
-        <div className="grid grid-cols-2 gap-2">
+        <Label style={{ marginBottom: space.gap.tight }}>Цель</Label>
+        <div style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(2, 1fr)',
+          gap: space.gap.tight,
+          marginTop: space.gap.tight,
+        }}>
           {GOALS.map((g) => (
             <button
               key={g.id}
+              type="button"
               onClick={() => patchDraft({ goal: g.id })}
-              className={`text-left rounded-md p-3 border transition-colors ${
-                draft.goal === g.id
-                  ? 'bg-accent/15 border-accent text-accent'
-                  : 'bg-surface-alt border-border text-text'
-              }`}
+              style={{
+                textAlign: 'left',
+                borderRadius: space.radius.lg,
+                padding: 14,
+                border: draft.goal === g.id
+                  ? `1.5px solid ${C.accent}`
+                  : `1px solid ${C.bdr}`,
+                background: draft.goal === g.id ? C.accentBg : C.card,
+                color: draft.goal === g.id ? C.accent : C.text,
+                cursor: 'pointer',
+                transition: 'all .2s',
+              }}
             >
-              <div className="font-semibold">{g.label}</div>
-              <div className="text-xs text-text-muted">{g.hint}</div>
+              <div style={{
+                fontFamily: ff.sans,
+                fontWeight: 600,
+                fontSize: 14.5,
+              }}>
+                {g.label}
+              </div>
+              <div style={{
+                fontSize: 12,
+                color: draft.goal === g.id ? C.accent : C.muted,
+                marginTop: 2,
+              }}>
+                {g.hint}
+              </div>
             </button>
           ))}
         </div>
       </Card>
 
       <Card>
-        <div className="flex items-center justify-between mb-2">
-          <span className="text-sm text-text-muted">Бюджет на неделю</span>
-          <span className="font-semibold">{formatRub(draft.weekly_budget_rub)}</span>
+        <div style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          marginBottom: space.gap.tight,
+        }}>
+          <Label>Бюджет на неделю</Label>
+          <span style={{
+            fontFamily: ff.serif,
+            fontWeight: 600,
+            fontSize: 17,
+            color: C.text,
+          }}>
+            {formatRub(draft.weekly_budget_rub)}
+          </span>
         </div>
         <input
           type="range"
@@ -55,16 +93,27 @@ export function StepContext(): JSX.Element {
           step="100"
           value={draft.weekly_budget_rub}
           onInput={(e) => patchDraft({ weekly_budget_rub: Number((e.currentTarget as HTMLInputElement).value) })}
-          className="w-full accent-accent"
+          style={{ width: '100%', accentColor: C.accent }}
         />
-        <div className="flex justify-between text-xs text-text-muted mt-1">
+        <div style={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          fontSize: 12,
+          color: C.muted,
+          marginTop: 4,
+        }}>
           <span>1 500 ₽</span><span>10 000 ₽</span>
         </div>
       </Card>
 
       <Card>
-        <div className="text-sm text-text-muted mb-2">Где чаще покупаешь</div>
-        <div className="flex flex-wrap gap-2">
+        <Label style={{ marginBottom: space.gap.tight }}>Где чаще покупаешь</Label>
+        <div style={{
+          display: 'flex',
+          flexWrap: 'wrap',
+          gap: space.gap.tight,
+          marginTop: space.gap.tight,
+        }}>
           {STORES.map((s) => (
             <Chip
               key={s}
@@ -76,6 +125,6 @@ export function StepContext(): JSX.Element {
           ))}
         </div>
       </Card>
-    </div>
+    </Col>
   );
 }

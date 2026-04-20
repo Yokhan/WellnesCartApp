@@ -1,6 +1,7 @@
 import type { JSX } from 'preact';
 import { useEffect, useState } from 'preact/hooks';
-import { Card, Disclaimer, EvidenceTag } from '../../../shared/ui';
+import { Col, Card, H2, P, Metric, Disclaimer, EvidenceTag } from '../../../shared/ui';
+import { C, ff, space } from '../../../shared/ui/tokens';
 import { formatRub } from '../../../shared/format';
 import type { BasketTemplate, UserProfile } from '../../../shared/types';
 import { deriveBudgetTier } from '../../../shared/types';
@@ -28,44 +29,90 @@ export function StepReview(): JSX.Element {
   }, [draft.goal, draft.weekly_budget_rub]);
 
   return (
-    <div className="space-y-6">
+    <Col gap={space.gap.wide}>
       <div>
-        <h1 className="text-2xl font-bold">Готово к сборке</h1>
-        <p className="text-text-muted text-sm mt-1">Подобрали стартовую корзину. На следующей неделе подстроим под твои покупки.</p>
+        <H2>Готово к сборке</H2>
+        <P style={{ marginTop: 6 }}>
+          Подобрали стартовую корзину. На следующей неделе подстроим под твои покупки.
+        </P>
       </div>
 
       {basket && (
         <Card>
-          <div className="flex items-start justify-between mb-3">
+          <div style={{
+            display: 'flex',
+            alignItems: 'flex-start',
+            justifyContent: 'space-between',
+            marginBottom: space.gap.base,
+          }}>
             <div>
-              <div className="text-xs text-text-muted uppercase tracking-wide">Стартовая корзина</div>
-              <h2 className="text-xl font-bold mt-0.5">{basket.name}</h2>
+              <div style={{
+                fontSize: 10.5,
+                fontWeight: 700,
+                textTransform: 'uppercase' as const,
+                letterSpacing: 1.6,
+                color: C.muted,
+              }}>
+                Стартовая корзина
+              </div>
+              <div style={{
+                fontFamily: ff.serif,
+                fontSize: 20,
+                fontWeight: 700,
+                color: C.text,
+                marginTop: 4,
+              }}>
+                {basket.name}
+              </div>
             </div>
             <EvidenceTag level="SR/MA" />
           </div>
-          <p className="text-sm text-text-muted mb-4">{basket.description}</p>
 
-          <div className="grid grid-cols-3 gap-2 text-center">
-            <div className="bg-surface-alt rounded-md py-2">
-              <div className="text-xs text-text-muted">Бюджет/нед</div>
-              <div className="font-semibold text-sm">{formatRub(basket.weekly_budget_rub)}</div>
-            </div>
-            <div className="bg-surface-alt rounded-md py-2">
-              <div className="text-xs text-text-muted">Белок/день</div>
-              <div className="font-semibold text-sm">{basket.daily_protein_g} г</div>
-            </div>
-            <div className="bg-surface-alt rounded-md py-2">
-              <div className="text-xs text-text-muted">Калории/день</div>
-              <div className="font-semibold text-sm">{basket.daily_calories_kcal}</div>
-            </div>
+          <P style={{ marginBottom: space.gap.normal }}>
+            {basket.description}
+          </P>
+
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(3, 1fr)',
+            gap: space.gap.tight,
+          }}>
+            <Metric
+              label="Бюджет/нед"
+              value={formatRub(basket.weekly_budget_rub)}
+            />
+            <Metric
+              label="Белок/день"
+              value={`${basket.daily_protein_g} г`}
+              color={C.green}
+            />
+            <Metric
+              label="Калории/день"
+              value={String(basket.daily_calories_kcal)}
+              color={C.blue}
+            />
           </div>
 
-          <div className="mt-4 flex flex-wrap gap-1">
+          <div style={{
+            marginTop: space.gap.normal,
+            display: 'flex',
+            flexWrap: 'wrap',
+            gap: 4,
+            alignItems: 'center',
+          }}>
             {basket.items.slice(0, 8).map((i) => (
-              <span key={i.universal_product_id} className="text-lg">{i.image_emoji}</span>
+              <span key={i.universal_product_id} style={{ fontSize: 20 }}>
+                {i.image_emoji}
+              </span>
             ))}
             {basket.items.length > 8 && (
-              <span className="text-xs text-text-muted self-center ml-1">+{basket.items.length - 8}</span>
+              <span style={{
+                fontSize: 12,
+                color: C.muted,
+                marginLeft: 4,
+              }}>
+                +{basket.items.length - 8}
+              </span>
             )}
           </div>
         </Card>
@@ -74,6 +121,6 @@ export function StepReview(): JSX.Element {
       <Disclaimer>
         NutriScore — международная система оценки продуктов питания. В России без официального статуса. Используется как ориентир. Расчёты — не медицинская рекомендация.
       </Disclaimer>
-    </div>
+    </Col>
   );
 }

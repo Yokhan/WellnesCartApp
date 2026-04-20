@@ -112,6 +112,8 @@ export interface ShoppingListItem {
   quantity: number;
   checked: boolean;
   is_sacred: boolean;
+  gate: GateResult;
+  value: ValueScore;
 }
 
 export interface ShoppingList {
@@ -133,6 +135,11 @@ export interface SwapSuggestion {
   protein_delta_g: number;
   price_delta_rub: number;
   reason: string;
+  reasons: string[];
+  score_delta: number;
+  from_score: number;
+  to_score: number;
+  convenience_label: string;
 }
 
 export interface ApiError {

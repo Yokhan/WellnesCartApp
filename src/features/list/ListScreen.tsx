@@ -1,7 +1,10 @@
 import type { JSX } from 'preact';
-import { useEffect } from 'preact/hooks';
+import { useEffect, useState } from 'preact/hooks';
 import { useLocation } from 'wouter-preact';
-import { Button, Disclaimer } from '../../shared/ui';
+import {
+  Col, Grid, Card, H3, Label, Metric, Callout, Button, Disclaimer,
+} from '../../shared/ui';
+import { C, ff, space } from '../../shared/ui/tokens';
 import { formatRub } from '../../shared/format';
 import {
   activeListSignal, userProfileSignal, persistList,
@@ -11,25 +14,43 @@ import { groupByCategory, countChecked } from './list.service';
 import { ListItemRow } from './ListItemRow';
 import { SwapOfWeekBlock } from './SwapOfWeekBlock';
 
+const WELCOME_KEY = 'buffeat_welcome_dismissed';
+
 export function ListScreen(): JSX.Element {
   const [, navigate] = useLocation();
   const list = activeListSignal.value;
   const profile = userProfileSignal.value;
+  const [showWelcome, setShowWelcome] = useState(false);
 
   useEffect(() => {
     if (!profile) navigate('/onboarding/pain');
   }, [profile, navigate]);
 
+  useEffect(() => {
+    if (profile && profile.swaps_accepted_week === 0) {
+      const dismissed = localStorage.getItem(WELCOME_KEY);
+      if (!dismissed) setShowWelcome(true);
+    }
+  }, [profile]);
+
   if (!list || !profile) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="text-text-muted">Загружаем список…</div>
+      <div style={{
+        minHeight: '100vh', display: 'flex',
+        alignItems: 'center', justifyContent: 'center',
+      }}>
+        <span style={{ color: C.muted, fontSize: 14 }}>Загружаем список...</span>
       </div>
     );
   }
 
   const sections = groupByCategory(list);
   const { done, total } = countChecked(list);
+
+  const dismissWelcome = () => {
+    localStorage.setItem(WELCOME_KEY, '1');
+    setShowWelcome(false);
+  };
 
   const regenerate = async () => {
     const next = await api.regenerateList(profile);
@@ -38,59 +59,103 @@ export function ListScreen(): JSX.Element {
   };
 
   return (
-    <div className="min-h-screen bg-bg pb-20">
-      <div className="max-w-xl mx-auto px-4 pt-6">
-        <header className="flex items-start justify-between mb-4">
-          <div>
-            <div className="text-xs text-text-muted uppercase tracking-wide">Список покупок</div>
-            <h1 className="text-2xl font-bold">{list.period}</h1>
-          </div>
-          <span className="text-accent font-bold text-sm tracking-widest">BUFF EAT</span>
-        </header>
+    <div style={{ minHeight: '100vh', background: C.bg, paddingBottom: 80 }}>
+      <div style={{
+        maxWidth: space.maxWidth, margin: '0 auto',
+        padding: space.pagePad, paddingTop: 24,
+      }}>
+        <Col gap={space.gap.wide}>
+          {/* Header */}
+          <header style={{
+            display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between',
+          }}>
+            <div>
+              <Label>Список покупок</Label>
+              <h1 style={{
+                fontFamily: ff.serif, fontSize: 26, fontWeight: 700,
+                color: C.text, margin: '4px 0 0', lineHeight: 1.2,
+              }}>
+                {list.period}
+              </h1>
+            </div>
+            <span style={{
+              fontFamily: ff.serif, fontSize: 13, fontWeight: 700,
+              color: C.accent, letterSpacing: 2.5, marginTop: 4,
+            }}>
+              BUFF EAT
+            </span>
+          </header>
 
-        <div className="grid grid-cols-3 gap-2 mb-4">
-          <div className="bg-surface rounded-md p-3 border border-border">
-            <div className="text-xs text-text-muted">Итого</div>
-            <div className="font-bold text-lg">{formatRub(list.total_estimated_rub)}</div>
-          </div>
-          <div className="bg-surface rounded-md p-3 border border-border">
-            <div className="text-xs text-text-muted">Белок/день</div>
-            <div className="font-bold text-lg">{list.total_daily_protein_g} г</div>
-          </div>
-          <div className="bg-surface rounded-md p-3 border border-border">
-            <div className="text-xs text-text-muted">Отмечено</div>
-            <div className="font-bold text-lg">{done}/{total}</div>
-          </div>
-        </div>
-
-        {list.swaps_of_week.length > 0 && (
-          <div className="mb-4">
-            <SwapOfWeekBlock list={list} />
-          </div>
-        )}
-
-        <div className="space-y-5">
-          {sections.map((s) => (
-            <section key={s.category}>
-              <h2 className="text-xs uppercase tracking-wide text-text-muted mb-2 px-1">{s.label}</h2>
-              <div className="space-y-2">
-                {s.items.map((it) => (
-                  <ListItemRow key={it.id} item={it} list={list} />
-                ))}
+          {/* Welcome card */}
+          {showWelcome && (
+            <Callout color={C.blue}>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+                <span style={{ fontWeight: 600 }}>
+                  Ваш список собран на основе цели ({profile.goal}), бюджета и привычек.
+                </span>
+                <span>
+                  Свайп влево — удалить товар. Нажмите на строку — подробности.
+                  Каждую неделю предлагаем замены для мягкого улучшения рациона.
+                </span>
+                <Button variant="ghost" size="sm" onClick={dismissWelcome}>
+                  Понятно
+                </Button>
               </div>
-            </section>
-          ))}
-        </div>
+            </Callout>
+          )}
 
-        <div className="mt-6 mb-4">
-          <Button variant="secondary" fullWidth onClick={regenerate}>
-            Пересобрать список
-          </Button>
-        </div>
+          {/* Stats row */}
+          <Grid min={160} gap={space.gap.base}>
+            <Metric
+              label="Итого"
+              value={formatRub(list.total_estimated_rub)}
+              color={C.accent}
+            />
+            <Metric
+              label="Белок / день"
+              value={`${list.total_daily_protein_g} г`}
+              color={C.green}
+            />
+            <Metric
+              label="Отмечено"
+              value={`${done}/${total}`}
+              sub={done === total ? 'Готово!' : undefined}
+              color={C.blue}
+            />
+          </Grid>
 
-        <Disclaimer>
-          Цены обновлены в базе прототипа (Q1 2026). Расчёты ₽/г белка — арифметика, не медицинская рекомендация.
-        </Disclaimer>
+          {/* Swap of week */}
+          {list.swaps_of_week.length > 0 && (
+            <SwapOfWeekBlock list={list} />
+          )}
+
+          {/* Items grouped by category */}
+          <Col gap={space.gap.wide}>
+            {sections.map((s) => (
+              <section key={s.category}>
+                <H3 style={{ marginBottom: space.gap.tight, paddingLeft: 2 }}>
+                  {s.label}
+                </H3>
+                <Col gap={space.gap.tight}>
+                  {s.items.map((it) => (
+                    <ListItemRow key={it.id} item={it} list={list} />
+                  ))}
+                </Col>
+              </section>
+            ))}
+          </Col>
+
+          {/* Actions */}
+          <div style={{ marginTop: space.gap.base }}>
+            <Button variant="secondary" fullWidth onClick={regenerate}>
+              Пересобрать список
+            </Button>
+          </div>
+
+          <Disclaimer>
+            Цены обновлены в базе прототипа (Q1 2026). Расчёты ₽/г белка — арифметика, не медицинская рекомендация.
+          </Disclaimer>
+        </Col>
       </div>
     </div>
   );

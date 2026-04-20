@@ -1,20 +1,30 @@
 import type { ComponentChildren, JSX } from 'preact';
+import { C, space } from './tokens';
 
 interface CardProps {
   children: ComponentChildren;
   onClick?: () => void;
-  className?: string;
+  accentColor?: string;
   padded?: boolean;
+  style?: JSX.CSSProperties;
 }
 
-export function Card(props: CardProps): JSX.Element {
-  const base = 'bg-surface rounded-lg border border-border shadow-card';
-  const pad = props.padded === false ? '' : 'p-4';
-  const interactive = props.onClick ? 'active:scale-[0.98] transition-transform cursor-pointer' : '';
-  const className = [base, pad, interactive, props.className ?? ''].filter(Boolean).join(' ');
+export function Card({ children, onClick, accentColor, padded = true, style }: CardProps): JSX.Element {
   return (
-    <div className={className} onClick={props.onClick}>
-      {props.children}
+    <div
+      onClick={onClick}
+      style={{
+        background: C.card,
+        borderRadius: space.radius.xl,
+        border: `1px solid ${C.bdr}`,
+        borderLeft: accentColor ? `3px solid ${accentColor}` : `1px solid ${C.bdr}`,
+        padding: padded ? space.padding.card : 0,
+        cursor: onClick ? 'pointer' : undefined,
+        transition: 'all .2s',
+        ...style,
+      }}
+    >
+      {children}
     </div>
   );
 }

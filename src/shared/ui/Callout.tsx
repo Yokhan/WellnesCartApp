@@ -1,13 +1,13 @@
 import type { ComponentChildren, JSX } from 'preact';
 import { C, space } from './tokens';
 
-interface DisclaimerProps {
+interface CalloutProps {
   children: ComponentChildren;
-  tone?: 'info' | 'warning';
+  color?: string;
+  style?: JSX.CSSProperties;
 }
 
-export function Disclaimer({ children, tone = 'info' }: DisclaimerProps): JSX.Element {
-  const color = tone === 'warning' ? C.amber : C.blue;
+export function Callout({ children, color = C.blue, style }: CalloutProps): JSX.Element {
   return (
     <div style={{
       padding: space.padding.inner,
@@ -15,8 +15,9 @@ export function Disclaimer({ children, tone = 'info' }: DisclaimerProps): JSX.El
       background: `${color}0D`,
       border: `1px solid ${color}26`,
       color,
-      fontSize: 12,
+      fontSize: 13,
       lineHeight: 1.65,
+      ...style,
     }}>
       {children}
     </div>

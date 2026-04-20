@@ -2,6 +2,7 @@ import type { JSX } from 'preact';
 import { useEffect } from 'preact/hooks';
 import { Route, Switch, Redirect, useLocation } from 'wouter-preact';
 import { BottomNav } from './shared/ui';
+import { C } from './shared/ui/tokens';
 import {
   userProfileSignal, isOnboarded, hydrateFromStorage,
 } from './shared/state';
@@ -21,7 +22,7 @@ export function App(): JSX.Element {
   const onboarded = isOnboarded.value;
 
   return (
-    <div className="min-h-screen bg-bg text-text">
+    <div style={{ minHeight: '100vh', background: C.bg, color: C.mid }}>
       <Switch>
         <Route path="/">
           {onboarded ? <Redirect to="/list" /> : <Redirect to="/onboarding/pain" />}
