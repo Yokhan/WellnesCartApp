@@ -223,6 +223,40 @@ All four conditions must be true (Ian Bull):
 - Blast radius is understood and contained
 - Easy to roll back
 
+## BUFF EAT Context (Project-Specific)
+
+### Architecture Checks (override generic)
+- Files < 250 lines (stricter than template 375)
+- Imports only through `index.ts`
+- `core/` has no IO (fetch, DB, fs)
+- Swaps only within `convenience_tier` + `use_context` [ADR-002]
+- Quality Gate → Value Score → Taste Engine — sequential pipeline, never mixed
+
+### Health Lens (apply when changes touch core/, data, swaps)
+Load: `.claude/skills/domain-health-review/SKILL.md`
+- NutriScore-2023 and Composite Score NOT mixed into one score [ADR-014]
+- Evidence levels on ALL nutritional claims: [RCT] / [SR/MA] / [i]
+- Sacred items NOT blocked — show warning only
+- Planned Indulgence = weekly compensation, not daily [ADR-013]
+- Quality Gate TIER-1 blocks: NutriScore D/E, NOVA-4 + C↓, trans fats > EFSA
+
+### Design Lens (apply when changes touch UI/components)
+Load: `.claude/skills/domain-design-review/SKILL.md`
+- Design system: cream (#FAF8F4), Playfair Display, terracotta (#A0522D)
+- Tokens from `src/shared/ui/tokens.ts` only — no hardcoded values
+- Neutral tone — never shame for food choices
+- Cognitive load < 4 chunks per screen
+
+### Communication Lens (apply when changes touch UI text/copy)
+Load: `.claude/skills/domain-communication-review/SKILL.md`
+- Benefit-first messaging (not feature-first)
+- Russian language for user-facing text
+- Evidence tags on nutritional claims
+- "Why before What" for swap explanations
+
+### BUFF EAT Guards (quick reference)
+See: `.claude/library/domain/buff-eat-guards.md`
+
 ## Agent Protocol
 
 See `.claude/agents/PROTOCOL.md` for shared protocol (memory, handoff, budget, metrics).

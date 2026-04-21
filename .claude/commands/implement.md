@@ -3,6 +3,12 @@ You are implementing a feature or change using the Plan → Annotate → Impleme
 ## Usage
 `/implement [task description]`
 
+## Phase 0: BUFF EAT Context
+1. Read `docs/BRD.md` — find relevant RF and UC
+2. Read `docs/DATA_DESIGN.md` — which tables are affected
+3. Read `docs/ARCHITECTURE.md` — where in Quality Gate → Value Score pipeline
+4. Read `tasks/lessons.md` — avoid known pitfalls
+
 ## Phase 1: Evaluate
 1. Read the task description
 2. Identify affected files and modules

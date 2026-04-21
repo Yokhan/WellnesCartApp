@@ -13,6 +13,11 @@ Before anything else, verify the feature name is available:
 - Check `src/shared/` and `src/core/` for name conflicts
 - If conflict found: suggest an alternative name and stop until user confirms
 
+## Step 0.5: BUFF EAT Research
+1. Read `docs/BRD.md` — find RF and UC for this feature
+2. Read `docs/DATA_DESIGN.md` — which tables are affected
+3. Read `docs/ARCHITECTURE.md` — where in Quality Gate → Value Score → Taste Engine pipeline
+
 ## Step 1: Explore Existing Patterns
 1. Read `_reference/README.md` — find canonical implementation
 2. Read the referenced feature to understand conventions. For each pattern found, note WHY it's structured this way, not just HOW
@@ -75,6 +80,17 @@ lint        # Style clean
 test        # Tests pass
 ```
 ALL must pass. Fix issues before proceeding.
+
+## Step 8.5: BUFF EAT Self-Review
+- [ ] Files < 250 lines (stricter than template 375)
+- [ ] Swaps only within `convenience_tier` + `use_context` [ADR-002]
+- [ ] Nutritional claims have evidence level: [RCT] / [SR/MA] / [i]
+- [ ] NutriScore and Composite Score NOT mixed [ADR-014]
+- [ ] Sacred items not blocked
+- [ ] UI text: benefit-first, Russian, neutral tone
+- [ ] Tokens from `src/shared/ui/tokens.ts` — no hardcoded values
+
+See: `.claude/library/domain/buff-eat-guards.md`
 
 ## Step 9: Finalize
 1. Update `docs/ARCHITECTURE.md` if new module added
