@@ -38,4 +38,4 @@ Every problem has ONE thing that, if addressed, makes everything else fall into 
 4. Highest leverage action (minimum force, maximum effect)
 5. What does victory look like? (measurable criteria)
 
-Full strategic review: `.claude/skills/strategic-review/SKILL.md`
+Full 63 principles from 12 sources: `.claude/docs/strategic-thinking-full.md`

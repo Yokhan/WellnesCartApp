@@ -34,3 +34,5 @@ Before submitting ANY analysis:
 2. Would a skeptical user accept this evidence?
 3. Did I find at least ONE issue?
 4. Am I reporting OBSERVATIONS or EXPECTATIONS?
+
+See also: `.claude/library/meta/critical-thinking.md`

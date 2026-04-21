@@ -44,75 +44,75 @@ description: "Review any plan, decision, or task against strategic thinking prin
 
 ### Orientation & Awareness
 
-1. **See the Whole Before Acting** — Survey the full landscape before committing. SOURCE: Sun Tzu, Musashi. DETECT: Agent jumps to code without reading requirements/context.
+1. **See the Whole Before Acting** — Survey the full landscape before committing. The swordsman who sees only the blade misses the body. SOURCE: Sun Tzu, Musashi. DETECT: Agent jumps to code without reading requirements/context.
 
-2. **Fog of War Is Normal** — Act effectively under uncertainty rather than blocking for perfect data. SOURCE: Clausewitz. DETECT: Agent paralyzed by "I need more context."
+2. **Fog of War Is Normal** — You will never have complete information. Act effectively under uncertainty rather than blocking for perfect data. SOURCE: Clausewitz. DETECT: Agent paralyzed by "I need more context."
 
-3. **Read the Phase** — Genesis needs exploration. Product needs engineering. Commodity needs automation. Wrong approach for the phase = wasted effort. SOURCE: Wardley Mapping.
+3. **Read the Phase** — Genesis needs exploration. Product needs engineering. Commodity needs automation. Retirement needs courage. Wrong approach for the phase = wasted effort. SOURCE: Wardley Mapping. DETECT: Over-engineering a prototype or under-engineering production.
 
-4. **Terrain Awareness** — Greenfield vs legacy, solo vs team, MVP vs production demand fundamentally different strategies. SOURCE: Sun Tzu.
+4. **Terrain Awareness** — Greenfield vs legacy, solo vs team, MVP vs production demand fundamentally different strategies. SOURCE: Sun Tzu. DETECT: Applying production patterns to a hackathon project.
 
-5. **Pattern Recognition** — Most situations have been encountered before. Use prior experience to accelerate correct response. SOURCE: I Ching, Boyd.
+5. **Pattern Recognition** — Most situations have been encountered before. Use prior experience to accelerate correct response. SOURCE: I Ching, Boyd. DETECT: Agent treats every problem as novel when a known solution exists.
 
 ### Goal & Constraint Identification
 
-6. **Commander's Intent First** — Define WHY and WHAT before HOW. Express intent, not micro-steps. SOURCE: Auftragstaktik/Mission Command.
+6. **Commander's Intent First** — Define WHY and WHAT before HOW. Express intent, not micro-steps. SOURCE: Auftragstaktik/Mission Command. DETECT: Task has no stated purpose, only mechanical steps.
 
-7. **Find the Bottleneck** — System improves only when the constraint improves. Everything else is waste. SOURCE: Goldratt (TOC).
+7. **Find the Bottleneck** — System improves only when the constraint improves. Everything else is waste. SOURCE: Goldratt (TOC). DETECT: Agent optimizes fast path while slow path determines overall throughput.
 
-8. **Highest Leverage Intervention** — Small effort, maximum effect. Change feedback loops, not parameters. SOURCE: Meadows (Systems Thinking).
+8. **Highest Leverage Intervention** — Small effort, maximum effect. Change feedback loops, not parameters. SOURCE: Meadows (Systems Thinking). DETECT: Agent tweaks 50 lines when an architectural change fixes the root cause.
 
-9. **Define Victory Conditions** — OKR format: qualitative objective + quantitative key results. Know what "done" looks like BEFORE starting. SOURCE: OKR methodology.
+9. **Define Victory Conditions** — OKR format: qualitative objective + quantitative key results. Know what "done" looks like BEFORE starting. SOURCE: OKR methodology. DETECT: Task starts with no success criteria.
 
-10. **Positive-Sum Framing** — Seek solutions that create value for ALL stakeholders. SOURCE: Game Theory (Nash).
+10. **Positive-Sum Framing** — Seek solutions that create value for ALL stakeholders. SOURCE: Game Theory (Nash). DETECT: Solution trades off one user need for another without exploring alternatives.
 
 ### Execution Strategy
 
-11. **Wu Wei — Effortless Action** — Find the path of least resistance. If it feels like fighting, wrong approach. SOURCE: Lao Tzu.
+11. **Wu Wei — Effortless Action** — Find the path of least resistance. The best solution feels obvious. If it feels like fighting, wrong approach. SOURCE: Lao Tzu. DETECT: Complex workaround when a simple solution exists.
 
-12. **Flow Over Batch** — Deliver value continuously in small increments. Don't stockpile work. SOURCE: Toyota/Deming.
+12. **Flow Over Batch** — Deliver value continuously in small increments. Don't stockpile work. SOURCE: Toyota/Deming. DETECT: Agent creates 15 files before testing any of them.
 
-13. **Water Strategy** — Persistent, adaptable, flows around obstacles. Try alternatives before escalating. SOURCE: Lao Tzu, Musashi.
+13. **Water Strategy** — Persistent, adaptable, flows around obstacles. Try alternatives before escalating. SOURCE: Lao Tzu, Musashi. DETECT: Agent crashes into a wall repeatedly instead of routing around.
 
-14. **Speed Through the Loop** — Rapid OODA cycling. Fast iteration WITH validation beats both slow perfectionism and fast recklessness. SOURCE: Boyd.
+14. **Speed Through the Loop** — Rapid OODA cycling. Fast iteration WITH validation beats both slow perfectionism and fast recklessness. SOURCE: Boyd. DETECT: Either no iteration (waterfall) or no validation (cowboy).
 
-15. **Small Experiments, Rapid Learning** — Smallest possible test of core hypothesis. Minimize blast radius. SOURCE: PDCA.
+15. **Small Experiments, Rapid Learning** — Smallest possible test of core hypothesis. Minimize blast radius. SOURCE: PDCA. DETECT: Agent refactors entire codebase instead of testing approach on one module.
 
 ### Coordination & Alignment
 
-16. **Cooperative Game Design** — Structure interactions so local optimization aligns with global optimization. SOURCE: Game Theory.
+16. **Cooperative Game Design** — Structure agent interactions so local optimization aligns with global optimization. SOURCE: Game Theory (mechanism design). DETECT: Agent optimizes its metric while degrading system.
 
-17. **Cross-Functional Unity** — All agents pull in one direction. Silo optimization destroys system performance. SOURCE: Kotler, Deming.
+17. **Cross-Functional Unity** — All agents pull in one direction. Silo optimization destroys system performance. SOURCE: Kotler, Deming. DETECT: Reviewer blocks code that implementer correctly prioritized for speed.
 
-18. **Shared Vision** — Without shared vision, agents optimize locally. North Star must be visible. SOURCE: Senge.
+18. **Shared Vision** — Without shared vision, agents optimize locally. North Star must be visible. SOURCE: Senge. DETECT: Agents working at cross-purposes on the same project.
 
-19. **Subordinate to Constraint** — Pace all work to match bottleneck capacity. SOURCE: TOC.
+19. **Subordinate to Constraint** — Pace all work to match bottleneck capacity. Don't create upstream pile-ups. SOURCE: TOC. DETECT: Generating more code than can be reviewed/tested.
 
-20. **Transparent Information Flow** — Decisions, findings, and reasoning must be visible. SOURCE: Meadows.
+20. **Transparent Information Flow** — Decisions, findings, and reasoning must be visible. Information hoarding kills coordination. SOURCE: Meadows. DETECT: Agent completes work without explaining reasoning.
 
 ### Adaptation & Resilience
 
-21. **Expect Friction** — Real execution encounters unforeseen difficulties. Build margin into plans. SOURCE: Clausewitz.
+21. **Expect Friction** — Real execution encounters unforeseen difficulties. Build margin into plans. SOURCE: Clausewitz. DETECT: Plans with no error handling, no buffers, no fallbacks.
 
-22. **No Fixed Form** — Overreliance on any single approach is a vulnerability. Match tool to context. SOURCE: Musashi.
+22. **No Fixed Form** — Overreliance on any single approach is a vulnerability. Match tool to context. SOURCE: Musashi. DETECT: Agent always reaches for the same pattern regardless of context.
 
-23. **Plans Change, Planning Stays** — Hold plans loosely. The thinking endures even when the plan changes. SOURCE: Moltke.
+23. **Plans Change, Planning Stays** — Hold plans loosely. The thinking endures even when the plan changes. SOURCE: Moltke. DETECT: Agent abandons all analysis when requirements change, starting from scratch.
 
-24. **Multiple Options** — Develop contingency plans. Have fallback approaches ready. SOURCE: Moltke.
+24. **Multiple Options** — Develop contingency plans. Have fallback approaches ready. SOURCE: Moltke. DETECT: No Plan B when Plan A fails.
 
-25. **Change = Normal** — Every state is transitional. Build strategies that assume change. SOURCE: I Ching.
+25. **Change = Normal** — Every state is transitional. Build strategies that assume change. SOURCE: I Ching. DETECT: Architecture that breaks when requirements evolve.
 
 ### Continuous Improvement
 
-26. **Kaizen** — Every cycle should leave the system slightly better. SOURCE: Deming/Toyota.
+26. **Kaizen** — Every cycle should leave the system slightly better. SOURCE: Deming/Toyota. DETECT: No improvement captured after completing a task.
 
-27. **Study, Don't Just Check** — When results differ from expectations, understand WHY deeply. SOURCE: PDCA.
+27. **Study, Don't Just Check** — When results differ from expectations, understand WHY deeply. SOURCE: PDCA. DETECT: "Tests pass" without understanding what was actually tested.
 
-28. **Build Knowledge, Not Just Output** — Increase understanding of the system with each cycle. SOURCE: Senge.
+28. **Build Knowledge, Not Just Output** — Increase understanding of the system with each cycle. SOURCE: Senge. DETECT: Agent produces code without building a mental model.
 
-29. **Fix the Loop, Not the Symptom** — If bugs recur, the feedback loop needs fixing. SOURCE: Systems Thinking.
+29. **Fix the Loop, Not the Symptom** — If bugs recur, the feedback loop needs fixing (tests? architecture? requirements?). SOURCE: Systems Thinking. DETECT: Same type of bug fixed 3+ times.
 
-30. **Know When to Stop** — Culmination point: good enough IS the optimum. SOURCE: Clausewitz.
+30. **Know When to Stop** — Culmination point: good enough IS the optimum. SOURCE: Clausewitz. DETECT: Agent keeps refactoring past the point of diminishing returns.
 
 ---
 
@@ -126,6 +126,7 @@ Before completing any significant task, verify NONE of these apply:
 - [ ] **Ignoring the Constraint** — Am I improving non-bottlenecks?
 - [ ] **Rigid Plan Execution** — Am I following a plan that reality has invalidated?
 - [ ] **Speed Without Orientation** — Did I understand WHY before starting HOW?
+- [ ] **Silo Execution** — Am I coordinating with other agents/tasks?
 - [ ] **Gold Plating** — Am I engineering beyond what creates value?
 - [ ] **Symptom Treatment** — Am I fixing root causes or patches?
 - [ ] **Past Culmination** — Should I stop now? Is "good enough" actually good enough?
@@ -150,17 +151,18 @@ Before completing any significant task, verify NONE of these apply:
 ---
 
 ## Key Sources
-- Sun Tzu — Art of War
-- Miyamoto Musashi — Book of Five Rings
-- I Ching — Book of Changes
-- Lao Tzu — Tao Te Ching
-- Carl von Clausewitz — On War
-- John Boyd — OODA Loop
-- John Nash / Von Neumann — Game Theory
-- Donella Meadows / Peter Senge — Systems Thinking
-- Simon Wardley — Wardley Mapping
-- W. Edwards Deming / Toyota — TPS/Lean
-- Eliyahu Goldratt — Theory of Constraints
-- PDCA / Shewhart-Deming — Plan-Do-Check-Act
-- OKR / Commander's Intent / Auftragstaktik
-- Helmuth von Moltke — Adaptive planning
+- Sun Tzu — Art of War (strategy, terrain, clarity)
+- Miyamoto Musashi — Book of Five Rings (adaptability, no fixed form)
+- I Ching — Book of Changes (change as constant, phase reading)
+- Lao Tzu — Tao Te Ching (wu wei, water strategy, minimum force)
+- Carl von Clausewitz — On War (friction, fog, center of gravity, culmination)
+- John Boyd — OODA Loop (decision speed, orientation primacy)
+- John Nash / Von Neumann — Game Theory (cooperative strategies, positive-sum)
+- Donella Meadows / Peter Senge — Systems Thinking (leverage points, feedback loops)
+- Simon Wardley — Wardley Mapping (evolution stages, situational awareness)
+- Philip Kotler — Marketing Warfare (cross-departmental alignment)
+- W. Edwards Deming / Toyota — TPS/Lean (flow, kaizen, continuous improvement)
+- Eliyahu Goldratt — Theory of Constraints (bottleneck focus)
+- PDCA / Shewhart-Deming — Plan-Do-Check-Act (scientific method applied)
+- OKR / Commander's Intent / Auftragstaktik — Goal clarity with execution autonomy
+- Helmuth von Moltke — Adaptive planning ("no plan survives contact")
