@@ -60,6 +60,40 @@
 
 При создании нового модуля — СНАЧАЛА посмотри templates/[тип]/ и используй как каркас.
 
+## Доменные линзы (Domain Review Skills)
+
+Правила загружаются ON DEMAND из `.claude/library/`. Полные domain review skills в `.claude/skills/domain-*/SKILL.md`.
+
+### Когда какую линзу применять
+
+| Действие | Линзы |
+|----------|-------|
+| Фича с UI | Design + Communication + Health + Software |
+| Фича без UI (core/data) | Software + Health + Science |
+| Ревью кода | Software + Health (если нутритивная логика) |
+| UI-тексты, описания свопов | Communication + Design |
+| Бизнес-решение | Business + Strategic |
+| Исследование, анализ данных | Science + Health |
+
+### Быстрая загрузка
+- Condensed guards: `.claude/library/domain/domain-guards.md`
+- BUFF EAT-specific: `.claude/library/domain/buff-eat-guards.md`
+- Design pipeline: `.claude/library/domain/domain-design-pipeline.md`
+
+### Процессы
+- Research-first: `.claude/library/process/research-first.md`
+- Plan-first (M+ tasks): `.claude/library/process/plan-first.md`
+- Self-verification: `.claude/library/process/self-verification.md`
+- Self-improvement: `.claude/library/process/self-improvement.md`
+
+### Pipelines
+- Feature lifecycle: `.claude/pipelines/feature.md`
+- Bugfix lifecycle: `.claude/pipelines/bugfix.md`
+
+### Tasks
+- Lessons learned: `tasks/lessons.md`
+- Current task: `tasks/current.md`
+
 ## DON'T
 
 - Файлы > 250 строк — разбивай
